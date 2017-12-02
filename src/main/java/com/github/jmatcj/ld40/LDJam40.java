@@ -3,6 +3,7 @@ package com.github.jmatcj.ld40;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
+import java.util.Map;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -12,9 +13,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.util.Map;
-
 public class LDJam40 extends Application {
+    private AnimationTimer gameLoop;
     private Game game;
 
     @Override
@@ -35,7 +35,7 @@ public class LDJam40 extends Application {
 
         scene.setOnMouseClicked(event -> game.onClick(event));
 
-        new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 game.update(now);
@@ -47,7 +47,9 @@ public class LDJam40 extends Application {
                     e.getValue().draw(gc,e.getKey().getResource().toString() + " " + game.getResource(e.getKey().getResource()));
                 }
             }
-        }.start();
+        };
+
+        gameLoop.start();
 
         primaryStage.show();
 
@@ -62,7 +64,7 @@ public class LDJam40 extends Application {
 
     @Override
     public void stop() throws Exception {
-
+        gameLoop.stop();
     }
 
     public static void main(String[] args) {

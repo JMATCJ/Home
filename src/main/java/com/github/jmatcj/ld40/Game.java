@@ -1,17 +1,16 @@
 package com.github.jmatcj.ld40;
 
+import static com.github.jmatcj.ld40.data.Planet.XEONUS;
+
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
+import com.github.jmatcj.ld40.util.Util;
+import java.util.EnumMap;
+import java.util.Map;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
 public class Game {
     private static final int[] RES_Y_VALUES = {65, 105, 145, 185};
@@ -27,7 +26,7 @@ public class Game {
         for (Resources r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        btnsToDisplay = new HashMap<>();
+        btnsToDisplay = new EnumMap<>(Button.class);
         btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, 65));
     }
 
@@ -64,6 +63,12 @@ public class Game {
         }
         for (Button b : btnsToDisplay.keySet()) {
             b.update(ns);
+        }
+        if (btnsToDisplay.size() > 1) { // They've gotten a new resource
+            long diff = (ns - startNS) % Util.timeInNS(30);
+            if (diff <= 1000000) {
+                addResource(Resources.FOOD, -1);
+            }
         }
     }
 }
