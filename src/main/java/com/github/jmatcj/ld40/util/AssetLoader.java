@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.image.Image;
@@ -29,13 +31,13 @@ public class AssetLoader {
         br.close();
         is.close();
         // MUSIC
-        music = new HashMap<>();
+        /*music = new HashMap<>();
         is = AssetLoader.class.getResourceAsStream(MUSIC_DIR);
         br = new BufferedReader(new InputStreamReader(is));
         br.lines().forEach(s -> {
             System.out.println(s + " being loaded...");
-            music.put(s, new Media(AssetLoader.MUSIC_DIR + s));
-        });
+            music.put(s, new Media(AssetLoader.class.getResource(MUSIC_DIR + s).toExternalForm()));
+        });*/
     }
 
     public static Image getImage(String name) {
