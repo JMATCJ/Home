@@ -54,6 +54,6 @@ public class AssetLoader {
     }
 
     public static String getFontLoc() {
-        return FONT_LOC;
+        return AssetLoader.class.getResource(FONT_LOC).toExternalForm();
     }
 }
