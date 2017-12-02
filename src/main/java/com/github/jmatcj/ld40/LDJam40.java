@@ -21,6 +21,10 @@ public class LDJam40 extends Application {
         Scene scene = new Scene(new Group(canvas));
         primaryStage.setScene(scene);
 
+        scene.setOnMouseClicked(event -> {
+            System.out.println("Mouse X pos: " + event.getX() + "\tMouse Y pos: " + event.getY());
+        });
+
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -28,6 +32,7 @@ public class LDJam40 extends Application {
                 canvas.getGraphicsContext2D().fillRect(10, 10, 10, 10);
             }
         }.start();
+
         primaryStage.show();
     }
 
