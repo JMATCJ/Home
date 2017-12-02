@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
