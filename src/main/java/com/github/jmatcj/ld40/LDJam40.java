@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -21,15 +22,23 @@ public class LDJam40 extends Application {
         Scene scene = new Scene(new Group(canvas));
         primaryStage.setScene(scene);
 
+        Button bt = new Button(Resources.STONE, new Image("/images/Button_15-128.png"));
+
         scene.setOnMouseClicked(event -> {
-            System.out.println("Mouse X pos: " + event.getX() + "\tMouse Y pos: " + event.getY());
+            if (event.getX() > 10 && event.getX() < 138) {
+                if (event.getY() > 10 && event.getY() < 138) {
+                    bt.onClick();
+                }
+            }
         });
+
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 canvas.getGraphicsContext2D().setFill(Color.RED);
                 canvas.getGraphicsContext2D().fillRect(10, 10, 10, 10);
+                canvas.getGraphicsContext2D().drawImage(bt.getImage(), 10, 10);
             }
         }.start();
 
