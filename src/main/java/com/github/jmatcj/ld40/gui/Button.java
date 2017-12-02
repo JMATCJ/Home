@@ -44,7 +44,6 @@ public class Button {
 
     public void click(Game g) {
         g.addResource(resource, resourceAmount);
-        System.out.println("Resource: " + resource.toString() + "\tAmount: " + g.getResource(resource));
     }
 
     public void draw(GraphicsContext gc, int x, int y) {

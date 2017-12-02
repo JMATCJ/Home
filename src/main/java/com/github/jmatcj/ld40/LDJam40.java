@@ -46,7 +46,7 @@ public class LDJam40 extends Application {
             public void handle(long now) {
                 canvas.getGraphicsContext2D().clearRect(0, 0, 1280, 720);
                 bt.draw(canvas.getGraphicsContext2D(), 100, 100);
-                t.draw("Food: " + game.getResource(bt.getResource()), 300, 300);
+                t.draw(bt.getResource().toString() + " " + game.getResource(bt.getResource()), 300, 300);
             }
         }.start();
 
