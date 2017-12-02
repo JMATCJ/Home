@@ -38,4 +38,15 @@ public enum Planet {
     public int getMoveOnAmountFor(Resource resource) {
         return moveOnAmount.getOrDefault(resource, -1);
     }
+
+    public static void debug(boolean isDebug) {
+        if (isDebug) {
+            System.out.println("\"-debug\" specified. Setting all moveOnAmounts to 1...");
+            for (Planet p : values()) {
+                for (Resource r : p.resources) {
+                    p.moveOnAmount.put(r, 1);
+                }
+            }
+        }
+    }
 }

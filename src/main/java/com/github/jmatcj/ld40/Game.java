@@ -36,7 +36,6 @@ public class Game {
             collected.put(resource, cur + amount);
         }
         if (collected.get(resource) == currentPlanet.getMoveOnAmountFor(resource)) {
-            //Button bt = new Button(Resource.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
             Button cur = Button.getButtonByResource(currentPlanet, resource);
             Button next = Button.values()[cur.ordinal() + 1];
             btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
