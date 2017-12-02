@@ -18,16 +18,16 @@ public class LDJam40 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Canvas canvas = new Canvas(200, 200);
+        Canvas canvas = new Canvas(1280, 720);
         Scene scene = new Scene(new Group(canvas));
         primaryStage.setScene(scene);
 
-        Button bt = new Button(Resources.STONE, new Image("/images/Button_15-128.png"));
+        Button bt = new Button(Resources.FOOD, new Image("/images/Button_15-128.png"));
 
         scene.setOnMouseClicked(event -> {
-            if (event.getX() > 10 && event.getX() < 138) {
-                if (event.getY() > 10 && event.getY() < 138) {
-                    bt.onClick();
+            if (event.getX() > bt.getX() && event.getX() < bt.getImage().getWidth() + bt.getX()) {
+                if (event.getY() > bt.getY() && event.getY() < bt.getImage().getHeight() + bt.getY()) {
+                    bt.click();
                 }
             }
         });
@@ -38,7 +38,7 @@ public class LDJam40 extends Application {
             public void handle(long now) {
                 canvas.getGraphicsContext2D().setFill(Color.RED);
                 canvas.getGraphicsContext2D().fillRect(10, 10, 10, 10);
-                canvas.getGraphicsContext2D().drawImage(bt.getImage(), 10, 10);
+                bt.draw(canvas.getGraphicsContext2D(), 100, 100);
             }
         }.start();
 
