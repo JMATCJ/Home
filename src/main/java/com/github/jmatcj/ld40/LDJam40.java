@@ -33,7 +33,7 @@ public class LDJam40 extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"));
+        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L);
         Text t = new Text(gc, Color.BLACK, 48);
 
         scene.setOnMouseClicked(event -> {
