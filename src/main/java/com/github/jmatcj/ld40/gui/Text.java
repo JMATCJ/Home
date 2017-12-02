@@ -13,16 +13,17 @@ public class Text {
     private Color color;
     private int fontSize;
 
-    public Text(String text, Color c, int fontSize, int x, int y) {
-        this.str = text;
+    public Text(Color c, int fontSize, int x, int y) {
+
         this.x = x;
         this.y = y;
         this.color = c;
         this.fontSize = fontSize;
     }
 
-    public void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc, String text) {
         this.gc = gc;
+        this.str = text;
         gc.setFill(color);
         gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.fillText(str, x, y);

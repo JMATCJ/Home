@@ -45,7 +45,7 @@ public class LDJam40 extends Application {
                 gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
                 for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
                     gc.drawImage(e.getKey().getImage(), e.getKey().getX(), e.getKey().getY());
-                    e.getValue().draw(gc);
+                    e.getValue().draw(gc,e.getKey().getResource().toString() + " " + game.getResource(e.getKey().getResource()));
                 }
             }
         }.start();
