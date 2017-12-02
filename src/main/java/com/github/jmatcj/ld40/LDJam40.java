@@ -33,7 +33,7 @@ public class LDJam40 extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L);
+        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L, 850, 500);
         Text t = new Text(gc, Color.BLACK, 48);
 
         scene.setOnMouseClicked(event -> {
@@ -51,7 +51,7 @@ public class LDJam40 extends Application {
 
                 gc.clearRect(0, 0, 1280, 720);
                 gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
-                bt.draw(gc, 850, 500);
+                gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
                 t.draw(bt.getResource().toString() + " " + game.getResource(bt.getResource()), 1050, 50);
             }
         }.start();

@@ -14,11 +14,13 @@ public class Button {
     private long cooldown;
     private long timePassed = 0L;
 
-    public Button(Resources r, Image i, long cd) {
+    public Button(Resources r, Image i, long cd, int x, int y) {
         resource = r;
         image = i;
         resourceAmount = 1;
         cooldown = cd;
+        buttonX = x;
+        buttonY = y;
     }
 
     public void setResourceAmount(int i) {
@@ -54,11 +56,5 @@ public class Button {
             g.addResource(resource, resourceAmount);
             timePassed = 0L;
         }
-    }
-
-    public void draw(GraphicsContext gc, int x, int y) {
-        buttonX = x;
-        buttonY = y;
-        gc.drawImage(image, x, y);
     }
 }
