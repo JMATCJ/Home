@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -30,8 +31,10 @@ public class LDJam40 extends Application {
         Scene scene = new Scene(new Group(canvas));
         primaryStage.setScene(scene);
 
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"));
-        Text t = new Text(canvas.getGraphicsContext2D(), Color.BLACK, 48);
+        Text t = new Text(gc, Color.BLACK, 48);
 
         scene.setOnMouseClicked(event -> {
             if (event.getX() > bt.getX() && event.getX() < bt.getImage().getWidth() + bt.getX()) {
@@ -46,9 +49,9 @@ public class LDJam40 extends Application {
             public void handle(long now) {
                 game.update(now);
 
-                canvas.getGraphicsContext2D().clearRect(0, 0, 1280, 720);
-                canvas.getGraphicsContext2D().drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
-                bt.draw(canvas.getGraphicsContext2D(), 850, 500);
+                gc.clearRect(0, 0, 1280, 720);
+                gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
+                bt.draw(gc, 850, 500);
                 t.draw(bt.getResource().toString() + " " + game.getResource(bt.getResource()), 1050, 50);
             }
         }.start();
