@@ -1,6 +1,6 @@
 package com.github.jmatcj.ld40.data;
 
-public enum Resources {
+public enum Resource {
     FOOD,
     STONE,
     IRON,

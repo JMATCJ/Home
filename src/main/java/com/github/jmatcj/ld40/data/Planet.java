@@ -1,9 +1,9 @@
 package com.github.jmatcj.ld40.data;
 
+import static com.github.jmatcj.ld40.data.Resource.*;
+
 import java.util.EnumMap;
 import java.util.Map;
-
-import static com.github.jmatcj.ld40.data.Resources.*;
 
 public enum Planet {
     XEONUS("Xeonus", FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
@@ -12,15 +12,15 @@ public enum Planet {
 
     private String name;
     // The list is ordered
-    private Resources[] resources;
+    private Resource[] resources;
     // The amount needed of a specified resource to move on to the next point
-    private Map<Resources, Integer> moveOnAmount;
+    private Map<Resource, Integer> moveOnAmount;
 
-    // Resources should always be 4, so that's why I'm going array
-    Planet(String name, Resources r1, int moa1, Resources r2, int moa2, Resources r3, int moa3, Resources r4, int moa4) {
+    // Resource should always be 4, so that's why I'm going array
+    Planet(String name, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
         this.name = name;
-        this.resources = new Resources[]{r1, r2, r3, r4};
-        this.moveOnAmount = new EnumMap<>(Resources.class);
+        this.resources = new Resource[]{r1, r2, r3, r4};
+        this.moveOnAmount = new EnumMap<>(Resource.class);
         this.moveOnAmount.put(r1, moa1);
         this.moveOnAmount.put(r2, moa2);
         this.moveOnAmount.put(r3, moa3);
@@ -31,11 +31,11 @@ public enum Planet {
         return name;
     }
 
-    public Resources[] getResources() {
+    public Resource[] getResources() {
         return resources;
     }
 
-    public int getMoveOnAmountFor(Resources resource) {
+    public int getMoveOnAmountFor(Resource resource) {
         return moveOnAmount.getOrDefault(resource, -1);
     }
 }

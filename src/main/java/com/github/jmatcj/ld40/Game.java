@@ -3,7 +3,7 @@ package com.github.jmatcj.ld40;
 import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
 import com.github.jmatcj.ld40.data.Planet;
-import com.github.jmatcj.ld40.data.Resources;
+import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.Util;
@@ -17,33 +17,33 @@ public class Game {
 
     private Long startNS;
     private Planet currentPlanet;
-    private Map<Resources, Integer> collected;
+    private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
 
     public Game() {
         currentPlanet = XEONUS;
-        collected = new EnumMap<>(Resources.class);
-        for (Resources r : currentPlanet.getResources()) {
+        collected = new EnumMap<>(Resource.class);
+        for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
         btnsToDisplay = new EnumMap<>(Button.class);
         btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, 65));
     }
 
-    public void addResource(Resources resources, int amount) {
-        if (collected.containsKey(resources)) {
-            int cur = collected.get(resources);
-            collected.put(resources, cur + amount);
+    public void addResource(Resource resource, int amount) {
+        if (collected.containsKey(resource)) {
+            int cur = collected.get(resource);
+            collected.put(resource, cur + amount);
         }
-        if (collected.get(resources) == currentPlanet.getMoveOnAmountFor(resources)) {
-            //Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
-            Button cur = Button.getButtonByResource(currentPlanet, resources);
+        if (collected.get(resource) == currentPlanet.getMoveOnAmountFor(resource)) {
+            //Button bt = new Button(Resource.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
+            Button cur = Button.getButtonByResource(currentPlanet, resource);
             Button next = Button.values()[cur.ordinal() + 1];
             btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
         }
     }
 
-    public int getResource(Resources r) {
+    public int getResource(Resource r) {
         return collected.get(r);
     }
 
@@ -67,7 +67,7 @@ public class Game {
         if (btnsToDisplay.size() > 1) { // They've gotten a new resource
             long diff = (ns - startNS) % Util.timeInNS(30);
             if (diff <= 1000000) {
-                addResource(Resources.FOOD, -1);
+                addResource(Resource.FOOD, -1);
             }
         }
     }

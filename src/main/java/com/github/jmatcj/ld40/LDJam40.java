@@ -23,6 +23,7 @@ public class LDJam40 extends Application {
         // At this stage, the stage (heh) hasn't been shown yet
         AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
         game = new Game();
+
     }
 
     @Override
