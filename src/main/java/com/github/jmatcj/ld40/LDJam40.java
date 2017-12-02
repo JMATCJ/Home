@@ -2,6 +2,11 @@ package com.github.jmatcj.ld40;
 
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
+import com.github.jmatcj.ld40.util.AssetLoader;
+import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Enumeration;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -17,6 +22,7 @@ public class LDJam40 extends Application {
     public void init() throws Exception {
         // Load resources
         // At this stage, the stage (heh) hasn't been shown yet
+        AssetLoader.initialize();
     }
 
     @Override
@@ -25,7 +31,7 @@ public class LDJam40 extends Application {
         Scene scene = new Scene(new Group(canvas));
         primaryStage.setScene(scene);
 
-        Button bt = new Button(Resources.FOOD, new Image("/images/Button_15-128.png"));
+        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("test_button.png"));
 
         scene.setOnMouseClicked(event -> {
             if (event.getX() > bt.getX() && event.getX() < bt.getImage().getWidth() + bt.getX()) {
@@ -34,7 +40,6 @@ public class LDJam40 extends Application {
                 }
             }
         });
-
 
         new AnimationTimer() {
             @Override
