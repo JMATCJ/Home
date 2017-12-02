@@ -29,7 +29,7 @@ public class Game {
             collected.put(r, 0);
         }
         btnsToDisplay = new HashMap<>();
-        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L, 850, 500);
+        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), Util.timeInNS(5), 850, 500);
         btnsToDisplay.put(bt, new Text(Color.BLACK, 48, 1050, 65));
     }
 
@@ -39,7 +39,7 @@ public class Game {
             collected.put(resources, cur + amount);
         }
         if (collected.get(resources) == currentPlanet.getMoveOnAmountFor(resources)) {
-            Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), 1000000000L, 850, 300);
+            Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
             btnsToDisplay.put(bt, new Text(Color.BLACK, 48, 1050, 105));
         }
     }

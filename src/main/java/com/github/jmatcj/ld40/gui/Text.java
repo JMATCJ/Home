@@ -27,7 +27,6 @@ public class Text {
         gc.setFill(color);
         gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.fillText(str, x, y);
-
     }
 
     public int getX() {
