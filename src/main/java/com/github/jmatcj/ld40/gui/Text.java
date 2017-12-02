@@ -5,16 +5,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Text {
-    private Color fillColor = Color.BLACK;
-    private Font font = Font.font("Times New Roman");
+    private GraphicsContext gc;
 
 
-    public Text(GraphicsContext gc) {
-        gc.setFill(fillColor);
-        gc.setFont(font);
+    public Text(GraphicsContext gc, Color c, String font, int fontSize) {
+        this.gc = gc;
+        gc.setFill(c);
+        gc.setFont(Font.font(font, fontSize));
     }
 
-    public void draw(GraphicsContext gc, String text, int x, int y) {
+    public void draw(String text, int x, int y) {
         gc.fillText(text, x, y);
     }
 }
