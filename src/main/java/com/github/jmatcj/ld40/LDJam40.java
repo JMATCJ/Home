@@ -33,7 +33,7 @@ public class LDJam40 extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Text t = new Text(gc, Color.BLACK, 48);
+
 
         scene.setOnMouseClicked(event -> {
             game.onClick(event);
@@ -48,9 +48,9 @@ public class LDJam40 extends Application {
                 gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
                 for (Button bt : game.getButtonsOnDisplay()) {
                     gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
-                    gc.fillText(bt.getResource().toString() + "\t" + game.getResource(bt.getResource()), );
+                    Text t = new Text(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()), Color.BLACK, 48, 1050, 65);
+                    t.draw();
                 }
-                t.draw(, 1050, 50);
             }
         }.start();
 
