@@ -17,12 +17,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LDJam40 extends Application {
+    private Game game;
 
     @Override
     public void init() throws Exception {
         // Load resources
         // At this stage, the stage (heh) hasn't been shown yet
         AssetLoader.initialize();
+        game = new Game();
     }
 
     @Override
