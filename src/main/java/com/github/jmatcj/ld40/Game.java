@@ -8,6 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class Game {
+    private Long startNS;
     private Planet currentPlanet;
     private Map<Resources, Integer> collected;
 
@@ -28,5 +29,11 @@ public class Game {
 
     public int getResource(Resources r) {
         return collected.get(r);
+    }
+
+    public void update(long ns) {
+        if (startNS == null) {
+            startNS = ns;
+        }
     }
 }

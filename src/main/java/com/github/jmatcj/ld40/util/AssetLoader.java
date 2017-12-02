@@ -17,8 +17,13 @@ public class AssetLoader {
     // name:Image pairs
     private static Map<String, Image> images;
     private static Map<String, Media> music;
+    private static String fontLoc;
 
     public static void initialize(boolean noMusic) throws IOException {
+        // FONT
+        System.out.println("Loading Code Bold font...");
+        fontLoc = AssetLoader.class.getResource(FONT_LOC).toExternalForm();
+
         // IMAGES
         images = new HashMap<>();
         InputStream is = AssetLoader.class.getResourceAsStream(IMAGES_DIR);
@@ -54,6 +59,6 @@ public class AssetLoader {
     }
 
     public static String getFontLoc() {
-        return AssetLoader.class.getResource(FONT_LOC).toExternalForm();
+        return fontLoc;
     }
 }
