@@ -1,6 +1,6 @@
 package com.github.jmatcj.ld40;
 
-import static com.github.jmatcj.ld40.data.Resources.*;
+import static com.github.jmatcj.ld40.data.Planet.*;
 
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
@@ -13,7 +13,7 @@ public class Game {
     private Map<Resources, Integer> collected;
 
     public Game() {
-        currentPlanet = new Planet("Xeonus", FOOD, STONE, IRON, CARBON);
+        currentPlanet = XEONUS;
         collected = new EnumMap<>(Resources.class);
         for (Resources r : currentPlanet.getResources()) {
             collected.put(r, 0);
