@@ -1,5 +1,6 @@
-package com.github.jmatcj.ld40;
+package com.github.jmatcj.ld40.gui;
 
+import com.github.jmatcj.ld40.data.Resources;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 

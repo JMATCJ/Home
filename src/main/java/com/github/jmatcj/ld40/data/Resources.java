@@ -1,4 +1,4 @@
-package com.github.jmatcj.ld40;
+package com.github.jmatcj.ld40.data;
 
 public enum Resources {
     FOOD,

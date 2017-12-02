@@ -1,5 +1,7 @@
 package com.github.jmatcj.ld40;
 
+import com.github.jmatcj.ld40.data.Resources;
+import com.github.jmatcj.ld40.gui.Button;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -13,7 +15,8 @@ public class LDJam40 extends Application {
 
     @Override
     public void init() throws Exception {
-
+        // Load resources
+        // At this stage, the stage (heh) hasn't been shown yet
     }
 
     @Override
