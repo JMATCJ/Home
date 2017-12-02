@@ -1,9 +1,9 @@
 package com.github.jmatcj.ld40.data;
 
-import static com.github.jmatcj.ld40.data.Resources.*;
-
 import java.util.EnumMap;
 import java.util.Map;
+
+import static com.github.jmatcj.ld40.data.Resources.*;
 
 public enum Planet {
     XEONUS("Xeonus", FOOD, 50, STONE, 100, IRON, 150, CARBON, 200),

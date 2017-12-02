@@ -7,7 +7,7 @@ public enum Resources {
     CARBON,
     COPPER,
     SILICON,
-    STEEL,
+    TITANIUM,
     HEXAPHESTRITE,
     ISOBELGOL,
     SELDROLE

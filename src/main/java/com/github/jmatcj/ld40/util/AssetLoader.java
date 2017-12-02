@@ -1,13 +1,14 @@
 package com.github.jmatcj.ld40.util;
 
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.image.Image;
-import javafx.scene.media.Media;
 
 public class AssetLoader {
     private static final String ASSETS_DIR = "/assets/ld40/";
