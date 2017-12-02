@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.image.Image;
@@ -15,11 +13,12 @@ public class AssetLoader {
     private static final String ASSETS_DIR = "/assets/ld40/";
     private static final String IMAGES_DIR = ASSETS_DIR + "images/";
     private static final String MUSIC_DIR = ASSETS_DIR + "music/";
+    private static final String FONT_LOC = ASSETS_DIR + "font/code_bold.otf";
     // name:Image pairs
     private static Map<String, Image> images;
     private static Map<String, Media> music;
 
-    public static void initialize() throws IOException {
+    public static void initialize(boolean noMusic) throws IOException {
         // IMAGES
         images = new HashMap<>();
         InputStream is = AssetLoader.class.getResourceAsStream(IMAGES_DIR);
@@ -31,16 +30,30 @@ public class AssetLoader {
         br.close();
         is.close();
         // MUSIC
-        /*music = new HashMap<>();
-        is = AssetLoader.class.getResourceAsStream(MUSIC_DIR);
-        br = new BufferedReader(new InputStreamReader(is));
-        br.lines().forEach(s -> {
-            System.out.println(s + " being loaded...");
-            music.put(s, new Media(AssetLoader.class.getResource(MUSIC_DIR + s).toExternalForm()));
-        });*/
+        music = new HashMap<>();
+        if (!noMusic) {
+            is = AssetLoader.class.getResourceAsStream(MUSIC_DIR);
+            br = new BufferedReader(new InputStreamReader(is));
+            br.lines().forEach(s -> {
+                if (!s.endsWith(".ogg")) {
+                    System.out.println(s + " being loaded...");
+                    music.put(s, new Media(AssetLoader.class.getResource(MUSIC_DIR + s).toExternalForm()));
+                }
+            });
+            br.close();
+            is.close();
+        }
     }
 
     public static Image getImage(String name) {
         return images.getOrDefault(name, null);
+    }
+
+    public static Media getMusic(String name) {
+        return music.getOrDefault(name, null);
+    }
+
+    public static String getFontLoc() {
+        return FONT_LOC;
     }
 }

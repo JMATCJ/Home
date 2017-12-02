@@ -4,16 +4,12 @@ import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Enumeration;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -24,7 +20,7 @@ public class LDJam40 extends Application {
     public void init() throws Exception {
         // Load resources
         // At this stage, the stage (heh) hasn't been shown yet
-        AssetLoader.initialize();
+        AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
         game = new Game();
     }
 
@@ -35,7 +31,7 @@ public class LDJam40 extends Application {
         primaryStage.setScene(scene);
 
         Button bt = new Button(Resources.FOOD, AssetLoader.getImage("test_button.png"));
-        Text t = new Text(canvas.getGraphicsContext2D(), Color.BLACK, "Times New Roman", 48);
+        Text t = new Text(canvas.getGraphicsContext2D(), Color.BLACK, 48);
 
         scene.setOnMouseClicked(event -> {
             if (event.getX() > bt.getX() && event.getX() < bt.getImage().getWidth() + bt.getX()) {
@@ -55,6 +51,14 @@ public class LDJam40 extends Application {
         }.start();
 
         primaryStage.show();
+
+        //TODO: Look into OGG later.
+        if (!getParameters().getRaw().contains("-nomusic")) {
+            MediaPlayer player = new MediaPlayer(AssetLoader.getMusic("main.mp3"));
+            player.setVolume(0.2);
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+            player.play();
+        }
     }
 
     @Override
