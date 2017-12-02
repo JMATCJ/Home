@@ -1,5 +1,7 @@
 package com.github.jmatcj.ld40;
 
+import static com.github.jmatcj.ld40.data.Planet.XEONUS;
+
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
@@ -13,9 +15,9 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.jmatcj.ld40.data.Planet.XEONUS;
-
 public class Game {
+    private static final int[] RES_Y_VALUES = {65, 105, 145, 185};
+
     private Long startNS;
     private Planet currentPlanet;
     private Map<Resources, Integer> collected;
@@ -28,8 +30,7 @@ public class Game {
             collected.put(r, 0);
         }
         btnsToDisplay = new HashMap<>();
-        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), Util.timeInNS(5), 850, 500);
-        btnsToDisplay.put(bt, new Text(Color.BLACK, 48, 1050, 65));
+        btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, 65));
     }
 
     public void addResource(Resources resources, int amount) {
@@ -38,8 +39,10 @@ public class Game {
             collected.put(resources, cur + amount);
         }
         if (collected.get(resources) == currentPlanet.getMoveOnAmountFor(resources)) {
-            Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
-            btnsToDisplay.put(bt, new Text(Color.BLACK, 48, 1050, 105));
+            //Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), Util.timeInNS(10), 850, 300);
+            Button cur = Button.getButtonByResource(currentPlanet, resources);
+            Button next = Button.values()[cur.ordinal() + 1];
+            btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
         }
     }
 

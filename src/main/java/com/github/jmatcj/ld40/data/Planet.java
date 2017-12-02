@@ -7,7 +7,7 @@ import static com.github.jmatcj.ld40.data.Resources.*;
 
 public enum Planet {
     XEONUS("Xeonus", FOOD, 50, STONE, 100, IRON, 150, CARBON, 200),
-    DASKOTH("Daskoth", FOOD, 10, COPPER, 300, SILICON, 400, STEEL, 500),
+    DASKOTH("Daskoth", FOOD, 10, COPPER, 300, SILICON, 400, TITANIUM, 500),
     LEYMIA("Leymia", FOOD, 10, HEXAPHESTRITE, 1000, ISOBELGOL, 1500, SELDROLE, 2000);
 
     private String name;
