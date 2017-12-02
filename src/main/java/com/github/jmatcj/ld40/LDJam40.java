@@ -6,7 +6,17 @@ import javafx.stage.Stage;
 public class LDJam40 extends Application {
 
     @Override
+    public void init() throws Exception {
+
+    }
+
+    @Override
     public void start(Stage primaryStage) throws Exception {
+
+    }
+
+    @Override
+    public void stop() throws Exception {
 
     }
 
