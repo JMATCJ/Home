@@ -6,15 +6,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Text {
-    private GraphicsContext gc;
+    private String str;
+    private int x;
+    private int y;
 
-    public Text(GraphicsContext gc, Color c, int fontSize) {
-        this.gc = gc;
+    public Text(GraphicsContext gc, String text, Color c, int fontSize, int x, int y) {
+        this.str = text;
+        this.x = x;
+        this.y = y;
         gc.setFill(c);
         gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
     }
 
-    public void draw(String text, int x, int y) {
-        gc.fillText(text, x, y);
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

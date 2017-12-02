@@ -2,8 +2,8 @@ package com.github.jmatcj.ld40.gui;
 
 import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Resources;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 public class Button {
     private Image image;
@@ -11,16 +11,19 @@ public class Button {
     private int buttonX;
     private int buttonY;
     private int resourceAmount;
-    private long cooldown;
-    private long timePassed = 0L;
+    private long cooldownTime;
+    private long cooldownStart;
+    private boolean inCooldown;
 
     public Button(Resources r, Image i, long cd, int x, int y) {
         resource = r;
         image = i;
         resourceAmount = 1;
-        cooldown = cd;
+        cooldownTime = cd;
         buttonX = x;
         buttonY = y;
+        cooldownStart = -1;
+        inCooldown = false;
     }
 
     public void setResourceAmount(int i) {
@@ -48,13 +51,26 @@ public class Button {
     }
 
     public void update(long ns) {
-        timePassed += ns;
+        if (inCooldown) {
+            if (cooldownStart != -1) {
+                if (ns >= cooldownStart + cooldownTime) {
+                    inCooldown = false;
+                    cooldownStart = -1;
+                }
+            } else {
+                cooldownStart = ns;
+            }
+        }
     }
 
-    public void click(Game g) {
-        if (timePassed >= cooldown) {
+    public void click(MouseEvent e, Game g) {
+        if (!inCooldown && inBounds(e.getX(), e.getY())) {
             g.addResource(resource, resourceAmount);
-            timePassed = 0L;
+            inCooldown = true;
         }
+    }
+
+    private boolean inBounds(double x, double y) {
+        return x >= this.buttonX && x <= this.buttonX + image.getWidth() && y >= this.buttonY && y <= this.buttonY + image.getHeight();
     }
 }
