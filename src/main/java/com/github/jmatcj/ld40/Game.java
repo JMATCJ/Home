@@ -6,6 +6,7 @@ import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.util.AssetLoader;
+import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class Game {
             collected.put(r, 0);
         }
         btnsToDisplay = new HashSet<>();
-        btnsToDisplay.add(new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L, 850, 500));
+        btnsToDisplay.add(new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), Util.timeInNS(5), 850, 500));
     }
 
     public void addResource(Resources resources, int amount) {

@@ -1,6 +1,5 @@
 package com.github.jmatcj.ld40;
 
-import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
@@ -33,11 +32,7 @@ public class LDJam40 extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-
-
-        scene.setOnMouseClicked(event -> {
-            game.onClick(event);
-        });
+        scene.setOnMouseClicked(event -> game.onClick(event));
 
         new AnimationTimer() {
             @Override
