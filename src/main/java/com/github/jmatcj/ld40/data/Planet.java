@@ -6,9 +6,9 @@ import java.util.Map;
 import static com.github.jmatcj.ld40.data.Resources.*;
 
 public enum Planet {
-    XEONUS("Xeonus", FOOD, 50, STONE, 100, IRON, 150, CARBON, 200),
-    DASKOTH("Daskoth", FOOD, 10, COPPER, 300, SILICON, 400, TITANIUM, 500),
-    LEYMIA("Leymia", FOOD, 10, HEXAPHESTRITE, 1000, ISOBELGOL, 1500, SELDROLE, 2000);
+    XEONUS("Xeonus", FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
+    DASKOTH("Daskoth", FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
+    LEYMIA("Leymia", FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800);
 
     private String name;
     // The list is ordered

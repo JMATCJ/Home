@@ -1,19 +1,17 @@
 package com.github.jmatcj.ld40;
 
-import static com.github.jmatcj.ld40.data.Planet.XEONUS;
-
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
-import com.github.jmatcj.ld40.util.AssetLoader;
-import com.github.jmatcj.ld40.util.Util;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
 public class Game {
     private static final int[] RES_Y_VALUES = {65, 105, 145, 185};
