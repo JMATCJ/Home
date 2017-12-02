@@ -1,22 +1,25 @@
 package com.github.jmatcj.ld40;
 
-import static com.github.jmatcj.ld40.data.Planet.*;
-
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resources;
 import com.github.jmatcj.ld40.gui.Button;
+import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+
 import java.util.EnumMap;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javafx.scene.input.MouseEvent;
+
+import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
 public class Game {
     private Long startNS;
     private Planet currentPlanet;
     private Map<Resources, Integer> collected;
-    private Set<Button> btnsToDisplay;
+    private Map<Button, Text> btnsToDisplay;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -24,8 +27,9 @@ public class Game {
         for (Resources r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        btnsToDisplay = new HashSet<>();
-        btnsToDisplay.add(new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000000L, 850, 500));
+        btnsToDisplay = new HashMap<>();
+        Button bt = new Button(Resources.FOOD, AssetLoader.getImage("button_food_one.png"), 5000000L, 850, 500);
+        btnsToDisplay.put(bt, new Text(bt.getResource().toString() + " " + collected.get(bt.getResource()), Color.BLACK, 48, 1050, 65));
     }
 
     public void addResource(Resources resources, int amount) {
@@ -33,18 +37,22 @@ public class Game {
             int cur = collected.get(resources);
             collected.put(resources, cur + amount);
         }
+        if (collected.get(resources) == currentPlanet.getMoveOnAmountFor(resources)) {
+            Button bt = new Button(Resources.STONE, AssetLoader.getImage("button_stone.png"), 1000000000L, 850, 300);
+            btnsToDisplay.put(bt, new Text(bt.getResource().toString() + " " + collected.get(bt.getResource()), Color.BLACK, 48, 1050, 105));
+        }
     }
 
     public int getResource(Resources r) {
         return collected.get(r);
     }
 
-    public Set<Button> getButtonsOnDisplay() {
+    public Map<Button, Text> getButtonsOnDisplay() {
         return btnsToDisplay;
     }
 
     public void onClick(MouseEvent e) {
-        for (Button b : btnsToDisplay) {
+        for (Button b : btnsToDisplay.keySet()) {
             b.click(e, this);
         }
     }
@@ -53,7 +61,7 @@ public class Game {
         if (startNS == null) {
             startNS = ns;
         }
-        for (Button b : btnsToDisplay) {
+        for (Button b : btnsToDisplay.keySet()) {
             b.update(ns);
         }
     }

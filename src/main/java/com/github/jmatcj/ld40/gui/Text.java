@@ -10,18 +10,23 @@ public class Text {
     private String str;
     private int x;
     private int y;
+    private Color color;
+    private int fontSize;
 
-    public Text(GraphicsContext gc, String text, Color c, int fontSize, int x, int y) {
-        this.gc = gc;
+    public Text(String text, Color c, int fontSize, int x, int y) {
         this.str = text;
         this.x = x;
         this.y = y;
-        gc.setFill(c);
-        gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
+        this.color = c;
+        this.fontSize = fontSize;
     }
 
-    public void draw() {
+    public void draw(GraphicsContext gc) {
+        this.gc = gc;
+        gc.setFill(color);
+        gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.fillText(str, x, y);
+
     }
 
     public int getX() {

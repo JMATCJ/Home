@@ -14,6 +14,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Map;
+
 public class LDJam40 extends Application {
     private Game game;
 
@@ -46,10 +48,9 @@ public class LDJam40 extends Application {
 
                 gc.clearRect(0, 0, 1280, 720);
                 gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
-                for (Button bt : game.getButtonsOnDisplay()) {
-                    gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
-                    Text t = new Text(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()), Color.BLACK, 48, 1050, 65);
-                    t.draw();
+                for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
+                    gc.drawImage(e.getKey().getImage(), e.getKey().getX(), e.getKey().getY());
+                    e.getValue().draw(gc);
                 }
             }
         }.start();
