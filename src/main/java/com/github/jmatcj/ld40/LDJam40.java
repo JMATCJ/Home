@@ -38,7 +38,7 @@ public class LDJam40 extends Application {
         scene.setOnMouseClicked(event -> {
             if (event.getX() > bt.getX() && event.getX() < bt.getImage().getWidth() + bt.getX()) {
                 if (event.getY() > bt.getY() && event.getY() < bt.getImage().getHeight() + bt.getY()) {
-                    bt.click();
+                    bt.click(game);
                 }
             }
         });

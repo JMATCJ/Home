@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld40.gui;
 
+import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Resources;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -9,10 +10,20 @@ public class Button {
     private Resources resource;
     private int buttonX;
     private int buttonY;
+    private int resourceAmount;
 
     public Button(Resources r, Image i) {
         resource = r;
         image = i;
+        resourceAmount = 1;
+    }
+
+    public void setResourceAmount(int i) {
+        resourceAmount = i;
+    }
+
+    public int getResourceAmount() {
+        return resourceAmount;
     }
 
     public Image getImage() {
@@ -31,8 +42,9 @@ public class Button {
         return buttonY;
     }
 
-    public void click() {
-        System.out.println("Button was pressed, resource: " + resource.toString());
+    public void click(Game g) {
+        g.addResource(resource, resourceAmount);
+        System.out.println("Resource: " + resource.toString() + "\tAmount: " + g.getResource(resource));
     }
 
     public void draw(GraphicsContext gc, int x, int y) {

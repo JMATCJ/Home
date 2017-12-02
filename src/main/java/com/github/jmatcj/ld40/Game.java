@@ -25,4 +25,8 @@ public class Game {
             collected.put(resources, cur + amount);
         }
     }
+
+    public int getResource(Resources r) {
+        return collected.get(r);
+    }
 }
