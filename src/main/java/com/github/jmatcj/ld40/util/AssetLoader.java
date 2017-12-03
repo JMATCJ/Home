@@ -1,10 +1,15 @@
 package com.github.jmatcj.ld40.util;
 
-import com.github.jmatcj.ld40.LDJam40;
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.image.Image;
@@ -20,34 +25,51 @@ public class AssetLoader {
     private static Map<String, Media> music;
     private static String fontLoc;
 
-    //TODO: Fix JAR file assets
-    public static void initialize(boolean noMusic) throws IOException {
+    public static void initialize(boolean noMusic) throws IOException, URISyntaxException {
         // FONT
         System.out.println("Loading Code Bold font...");
         fontLoc = AssetLoader.class.getResource(FONT_LOC).toExternalForm();
         // IMAGES
         images = new HashMap<>();
-        InputStream is = AssetLoader.class.getResourceAsStream(IMAGES_DIR);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        br.lines().forEach(s -> {
-            System.out.println(s + " being loaded...");
-            images.put(s, new Image(IMAGES_DIR + s));
+        URI imagesURI = AssetLoader.class.getResource(IMAGES_DIR).toURI();
+        Path path;
+        char separator; // The separator is different inside JAR files on Windows
+        FileSystem fs = null; // Need a custom file system for JAR files...because reasons...
+        if (imagesURI.getScheme().equals("jar")) {
+            fs = FileSystems.newFileSystem(imagesURI, Collections.emptyMap());
+            path = fs.getPath(IMAGES_DIR);
+            separator = '/';
+        } else {
+            path = Paths.get(imagesURI);
+            separator = File.separatorChar;
+        }
+        Files.walk(path, 1).forEach(p -> {
+            if (p.toString().endsWith(".png")) {
+                String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
+                System.out.println(key + " being loaded...");
+                images.put(key, new Image(p.toUri().toString()));
+            }
         });
-        br.close();
-        is.close();
         // MUSIC
         music = new HashMap<>();
         if (!noMusic) {
-            is = AssetLoader.class.getResourceAsStream(MUSIC_DIR);
-            br = new BufferedReader(new InputStreamReader(is));
-            br.lines().forEach(s -> {
-                if (!s.endsWith(".ogg")) {
-                    System.out.println(s + " being loaded...");
-                    music.put(s, new Media(AssetLoader.class.getResource(MUSIC_DIR + s).toExternalForm()));
+            URI musicURI = AssetLoader.class.getResource(MUSIC_DIR).toURI();
+            if (musicURI.getScheme().equals("jar")) {
+                path = fs.getPath(MUSIC_DIR);
+            } else {
+                path = Paths.get(musicURI);
+            }
+            Files.walk(path, 1).forEach(p -> {
+                if (p.toString().endsWith(".mp3")) {
+                    String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
+                    System.out.println(key + " being loaded...");
+                    music.put(key, new Media(p.toUri().toString()));
                 }
             });
-            br.close();
-            is.close();
+        }
+        // CLEANUP
+        if (fs != null) {
+            fs.close();
         }
     }
 
