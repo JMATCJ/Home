@@ -74,6 +74,7 @@ public class Game {
         }
     }
 
+    int time = 0;
     public void update(long ns) {
         if (startNS == null) {
             startNS = ns;
@@ -82,9 +83,11 @@ public class Game {
             b.update(ns);
         }
         if (btnsToDisplay.size() > 1) { // They've gotten a new resource
-            long diff = (ns - startNS) % Util.timeInNS(30);
-            if (diff <= 1000000) {
-                addResource(Resource.FOOD, -1);
+        	time++;
+            if (time % 900 == 0) { //30 * 60 for 30 seconds and it gets called 60 times a second
+            	if (!(collected.get(Resource.FOOD) < 1)) {
+            		addResource(Resource.FOOD, -1);
+            	}
             }
         }
     }
