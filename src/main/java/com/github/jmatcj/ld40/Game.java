@@ -74,7 +74,6 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        System.out.println("NextPlanet: "+Thread.currentThread().getName());
         btnsToDisplay.forEach((button, text) -> removeButton(button));
         addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
@@ -97,23 +96,26 @@ public class Game {
     	hasBeenPurchased = true;
     }
 
-    private void addButton(Button b, Text t) {
+    public void addButton(Button b, Text t) {
         btnsToDisplay.put(b, t);
         updateListeners.add(b);
     }
 
-    private void removeButton(Button b) {
+    public void removeButton(Button b) {
         btnsToDisplay.remove(b);
         updateListeners.remove(b);
     }
 
     public void onClick(MouseEvent e) {
-        System.out.println("Click: "+Thread.currentThread().getName());
         for (Button b : btnsToDisplay.keySet()) {
             if (b.click(e, this)) {
                 break;
             }
         }
+    }
+
+    public void applyUpgrade(Upgrade upgrade) {
+        upgradesPurchased.add(upgrade);
     }
 
     public boolean addUpdateListener(Updatable updatable) {
@@ -132,11 +134,13 @@ public class Game {
 
         updateListeners.forEach(u -> u.update(ns));
 
-        if (collected.get(Resource.FOOD) >= 50 && collected.get(Resource.STONE) >= 20 && !purchasedFOODHarvester && !hasBeenPurchased) {
-            btnsToDisplay.put(Buttons.HARVESTERFOOD, null);
+        for (Upgrade u : Upgrade.values()) {
+            if (u.canUnlock(this)) {
+                addButton(Buttons.UPGRADE_BUTTONS.get(u), null);
+            }
         }
 
-        if (purchasedFOODHarvester) {
+        if (upgradesPurchased.contains(Upgrade.HARVESTERFOOD1)) {
         	if (time % 180 == 0) {
         		addResource(Resource.FOOD, 1);
         		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);
@@ -144,12 +148,8 @@ public class Game {
         		food.setInCooldown(true);
         	}
         }
-        
-        if (collected.get(Resource.FOOD) >= 150 && collected.get(Resource.STONE) >= 50 && !purchasedFOODHarvester1) {
-            btnsToDisplay.put(Buttons.HARVESTERFOOD1, null);
-        }
 
-        if (purchasedFOODHarvester1) {
+        if (upgradesPurchased.contains(Upgrade.HARVESTERFOOD2)) {
         	if (time % 120 == 0) {
         		addResource(Resource.FOOD, 1);
         		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);

@@ -6,6 +6,8 @@ import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.data.Upgrade;
 import com.github.jmatcj.ld40.util.AssetLoader;
 import com.github.jmatcj.ld40.util.Util;
+import java.util.EnumMap;
+import java.util.Map;
 import javafx.scene.input.MouseEvent;
 
 public final class Buttons {
@@ -24,8 +26,14 @@ public final class Buttons {
 
     public static final ResourceButton[] RESOURCE_BUTTONS = {FOOD_ONE, STONE, IRON, CARBON, FOOD_TWO, COPPER, SILICON, TITANIUM, FOOD_THREE, HEXAPHESTRITE, ISOBELGOL, SELDROLE};
 
-    public static final UpgradeButton HARVESTERFOOD = new UpgradeButton(Upgrade.HARVESTERFOOD, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD, AssetLoader.getImage("button_isol.png"), 50, 50);
+    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD1, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton HARVESTERFOOD2 = new UpgradeButton(Upgrade.HARVESTERFOOD2, AssetLoader.getImage("button_isol.png"), 50, 50);
+
+    public static final Map<Upgrade, Button> UPGRADE_BUTTONS = new EnumMap<>(Upgrade.class);
+    static {
+        UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD1, HARVESTERFOOD1);
+        UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD2, HARVESTERFOOD2);
+    }
 
     public static final Button CONFIRM_JUMP = new Button(AssetLoader.getImage("test_button.png"), 0, 40) {
         @Override
