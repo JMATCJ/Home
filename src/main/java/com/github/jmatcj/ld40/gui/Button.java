@@ -42,7 +42,7 @@ public enum Button {
             }
         }
     },
-    HARVESTERFOOD1(null, null, AssetLoader.getImage("button_isol.png"), 0, 50, 50) {
+    HARVESTERFOOD1(null, null, AssetLoader.getImage("button_isol.png"), 0, 50, 50) { //second upgrade for food
         @Override
         public void click(MouseEvent e, Game g) {
             if (inBounds(e.getX(), e.getY())) {
