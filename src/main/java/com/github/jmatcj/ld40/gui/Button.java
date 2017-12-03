@@ -110,6 +110,10 @@ public enum Button {
         return cooldownStart;
     }
 
+    public void setCooldownStart(long cooldownStart) {
+        this.cooldownStart = cooldownStart;
+    }
+
     public void update(long ns) {
         if (inCooldown) {
             if (cooldownStart != -1) {

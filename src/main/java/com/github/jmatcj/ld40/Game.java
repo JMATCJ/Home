@@ -20,8 +20,8 @@ public class Game {
     private Planet currentPlanet;
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
-    int time = 0;
-    boolean purchasedHarvester = false;
+    private int time = 0;
+    private boolean purchasedHarvester = false;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -85,11 +85,11 @@ public class Game {
         if (startNS == null) {
             startNS = ns;
         }
+        time++;
         for (Button b : btnsToDisplay.keySet()) {
             b.update(ns);
         }
         if (btnsToDisplay.size() > 1) { // They've gotten a new resource
-        	time++;
             if (time % 1800 == 0) { //30 * 60 for 30 seconds and it gets called 60 times a second
             	if (!(collected.get(Resource.FOOD) < 1)) {
             		addResource(Resource.FOOD, -1);
@@ -97,14 +97,16 @@ public class Game {
             }
         }
 
-        if (collected.get(Resource.FOOD) >= 5 && purchasedHarvester == false) {
+        if (collected.get(Resource.FOOD) >= 50 && !purchasedHarvester) {
             btnsToDisplay.put(Button.HARVESTER, null);
         }
 
         if (purchasedHarvester) {
         	if (time % 180 == 0) {
-        		addResource(Resource.FOOD, +1);
-        		Button.getButtonByResource(currentPlanet, Resource.FOOD).setInCooldown(true);
+        		addResource(Resource.FOOD, 1);
+        		Button food = Button.getButtonByResource(currentPlanet, Resource.FOOD);
+        		food.setCooldownStart(ns);
+        		food.setInCooldown(true);
         	}
         }
     }
