@@ -28,7 +28,20 @@ public enum Button {
                 g.nextPlanet();
             }
         }
+    },
+    HARVESTER(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) {
+        @Override
+        public void click(MouseEvent e, Game g) {
+            if (inBounds(e.getX(), e.getY())) {
+                if (g.getResource(Resource.FOOD) >= 50) {
+                    g.addResource(Resource.FOOD, -50);
+                    g.toggleHarvester();
+                    g.getButtonsOnDisplay().remove(Button.HARVESTER);
+                }
+            }
+        }
     };
+
 
     private Image image;
     private Resource resource;

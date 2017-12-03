@@ -71,6 +71,10 @@ public class Game {
         return btnsToDisplay;
     }
 
+    public void toggleHarvester() {
+        purchasedHarvester = true;
+    }
+
     public void onClick(MouseEvent e) {
         for (Button b : btnsToDisplay.keySet()) {
             b.click(e, this);
@@ -92,10 +96,11 @@ public class Game {
             	}
             }
         }
-        if (collected.get(Resource.FOOD) > 50) {
-        	addResource(Resource.FOOD, -50);
-        	purchasedHarvester = true;
+
+        if (collected.get(Resource.FOOD) >= 50) {
+            btnsToDisplay.put(Button.HARVESTER, null);
         }
+
         if (purchasedHarvester) {
         	if (time % 120 == 0) {
         		addResource(Resource.FOOD, +1);
