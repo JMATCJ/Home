@@ -28,13 +28,25 @@ public final class Buttons {
 
     public static final ResourceButton[] RESOURCE_BUTTONS = {FOOD_ONE, STONE, IRON, CARBON, FOOD_TWO, COPPER, SILICON, TITANIUM, FOOD_THREE, HEXAPHESTRITE, ISOBELGOL, SELDROLE};
 
-    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD1, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD1, AssetLoader.getImage("test_button.png"), 50, 100);
     public static final UpgradeButton HARVESTERFOOD2 = new UpgradeButton(Upgrade.HARVESTERFOOD2, AssetLoader.getImage("button_isol.png"), 50, 50);
+    public static final UpgradeButton QUARRY1 = new UpgradeButton(Upgrade.QUARRY1, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton QUARRY2 = new UpgradeButton(Upgrade.QUARRY2, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton QUARRY3 = new UpgradeButton(Upgrade.QUARRY3, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton QUARRY4 = new UpgradeButton(Upgrade.QUARRY4, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton QUARRY5 = new UpgradeButton(Upgrade.QUARRY5, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton QUARRY6 = new UpgradeButton(Upgrade.QUARRY6, AssetLoader.getImage("test_button.png"), 50, 50);
 
     public static final Map<Upgrade, Button> UPGRADE_BUTTONS = new EnumMap<>(Upgrade.class);
     static {
         UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD1, HARVESTERFOOD1);
         UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD2, HARVESTERFOOD2);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY1, QUARRY1);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY2, QUARRY2);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY3, QUARRY3);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY4, QUARRY4);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY5, QUARRY5);
+        UPGRADE_BUTTONS.put(Upgrade.QUARRY6, QUARRY6);
     }
 
     public static final Button CONFIRM_JUMP_ONE = new Button(AssetLoader.getImage("button_planet_two.png"), 0, 40) {

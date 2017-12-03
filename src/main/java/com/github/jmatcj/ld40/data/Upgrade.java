@@ -8,8 +8,14 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public enum Upgrade implements Updatable {
-    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 50, Resource.STONE, 20),
-    HARVESTERFOOD2(2, 1, Resource.FOOD, Resource.FOOD, 150, Resource.STONE, 50);
+    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 5, Resource.STONE, 2),
+    HARVESTERFOOD2(2, 1, Resource.FOOD, Resource.FOOD, 125, Resource.STONE, 35),
+    QUARRY1(5, 1, Resource.STONE, Resource.IRON, 30, Resource.STONE, 100),
+    QUARRY2(3, 1, Resource.STONE, Resource.IRON, 75, Resource.STONE, 250),
+    QUARRY3(10, 1, Resource.IRON, Resource.CARBON, 30, Resource.IRON, 100),
+    QUARRY4(5, 1, Resource.IRON, Resource.CARBON, 75, Resource.IRON, 250),
+    QUARRY5(20, 1, Resource.CARBON, Resource.IRON, 150),
+    QUARRY6(10, 1, Resource.CARBON, Resource.IRON, 350);
 
     private int secBetweenCycles;
     private int numToAdd;
