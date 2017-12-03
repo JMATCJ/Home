@@ -2,6 +2,7 @@ package com.github.jmatcj.ld40;
 
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.gui.Button;
+import com.github.jmatcj.ld40.gui.ResourceButton;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
 import java.util.Map;
@@ -51,11 +52,14 @@ public class LDJam40 extends Application {
             for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
                 Button bt = e.getKey();
                 gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
-                if (e.getValue() != null) { // Special case for the "Jump to next planet button"
-                    e.getValue().draw(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()));
-                }
-                if (bt.inCooldown()) {
-                    gc.fillRect(bt.getX(), bt.getY(), ((now - bt.getCooldownStart()) / ((double)bt.getCooldownTime())) * bt.getImage().getWidth(), 5);
+                if (bt instanceof ResourceButton) {
+                    ResourceButton rbt = (ResourceButton)bt;
+                    if (e.getValue() != null) {
+                        e.getValue().draw(gc, rbt.getResource().toString() + " " + game.getResource(rbt.getResource()));
+                    }
+                    if (rbt.inCooldown()) {
+                        gc.fillRect(bt.getX(), bt.getY(), ((now - rbt.getCooldownStart()) / ((double)rbt.getCooldownTime())) * bt.getImage().getWidth(), 5);
+                    }
                 }
             }
         });

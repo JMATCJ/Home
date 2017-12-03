@@ -4,10 +4,19 @@ import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resource;
+import com.github.jmatcj.ld40.data.Upgrade;
 import com.github.jmatcj.ld40.gui.Button;
+import com.github.jmatcj.ld40.gui.Buttons;
+import com.github.jmatcj.ld40.gui.ResourceButton;
 import com.github.jmatcj.ld40.gui.Text;
+import com.github.jmatcj.ld40.tick.FoodEater;
+import com.github.jmatcj.ld40.tick.Updatable;
 import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -16,11 +25,14 @@ public class Game {
 
     private Long startNS;
     private Planet currentPlanet;
+    private Set<Updatable> updateListeners;
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
-    private int time = 0;
+    private Set<Upgrade> upgradesPurchased;
+    private long time = 0;
+    private boolean purchasedHarvester = false;
     private boolean purchasedFOODHarvester = false;
-    private boolean hasBeenPurchased = false;  
+    private boolean hasBeenPurchased = false;
     private boolean purchasedFOODHarvester1 = false;
 
     public Game() {
@@ -29,8 +41,11 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        btnsToDisplay = new EnumMap<>(Button.class);
-        btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
+        upgradesPurchased = EnumSet.noneOf(Upgrade.class);
+        updateListeners = new HashSet<>();
+        addUpdateListener(new FoodEater(this));
+        btnsToDisplay = new HashMap<>();
+        addButton(Buttons.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
 
     public void addResource(Resource resource, int amount) {
@@ -39,12 +54,12 @@ public class Game {
             collected.put(resource, cur + amount);
         }
         if (collected.get(resource) == currentPlanet.getMoveOnAmountFor(resource)) {
-            Button cur = Button.getButtonByResource(currentPlanet, resource);
-            Button next = Button.values()[cur.ordinal() + 1];
+            ResourceButton cur = Buttons.getResourceButton(currentPlanet, resource);
+            ResourceButton next = Buttons.RESOURCE_BUTTONS[cur.ordinal() + 1];
             if (next.getPlanet() == currentPlanet) {
-                btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
+                addButton(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
             } else {
-                btnsToDisplay.put(Button.CONFIRM_JUMP, null);
+                addButton(Buttons.CONFIRM_JUMP, null);
             }
         }
     }
@@ -59,8 +74,9 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        btnsToDisplay.clear();
-        btnsToDisplay.put(Button.getButtonByResource(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
+        System.out.println("NextPlanet: "+Thread.currentThread().getName());
+        btnsToDisplay.forEach((button, text) -> removeButton(button));
+        addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
 
     public int getResource(Resource r) {
@@ -74,17 +90,38 @@ public class Game {
     public void toggleFOODHarvester() {
         purchasedFOODHarvester = true;
     }
-    
+
     public void toggleFOODHarvester1() {
     	purchasedFOODHarvester1 = true;
     	purchasedFOODHarvester = false;
     	hasBeenPurchased = true;
     }
 
+    private void addButton(Button b, Text t) {
+        btnsToDisplay.put(b, t);
+        updateListeners.add(b);
+    }
+
+    private void removeButton(Button b) {
+        btnsToDisplay.remove(b);
+        updateListeners.remove(b);
+    }
+
     public void onClick(MouseEvent e) {
+        System.out.println("Click: "+Thread.currentThread().getName());
         for (Button b : btnsToDisplay.keySet()) {
-            b.click(e, this);
+            if (b.click(e, this)) {
+                break;
+            }
         }
+    }
+
+    public boolean addUpdateListener(Updatable updatable) {
+        return updateListeners.add(updatable);
+    }
+
+    public boolean removeUpdateListener(Updatable updatable) {
+        return updateListeners.remove(updatable);
     }
 
     public void update(long ns) {
@@ -92,38 +129,30 @@ public class Game {
             startNS = ns;
         }
         time++;
-        for (Button b : btnsToDisplay.keySet()) {
-            b.update(ns);
-        }
-        if (btnsToDisplay.size() > 1) { // They've gotten a new resource
-            if (time % 1800 == 0) { //30 * 60 for 30 seconds and it gets called 60 times a second
-            	if (!(collected.get(Resource.FOOD) < 1)) {
-            		addResource(Resource.FOOD, -1);
-            	}
-            }
-        }
+
+        updateListeners.forEach(u -> u.update(ns));
 
         if (collected.get(Resource.FOOD) >= 50 && collected.get(Resource.STONE) >= 20 && !purchasedFOODHarvester && !hasBeenPurchased) {
-            btnsToDisplay.put(Button.HARVESTERFOOD, null);
+            btnsToDisplay.put(Buttons.HARVESTERFOOD, null);
         }
 
         if (purchasedFOODHarvester) {
         	if (time % 180 == 0) {
         		addResource(Resource.FOOD, 1);
-        		Button food = Button.getButtonByResource(currentPlanet, Resource.FOOD);
+        		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);
         		food.setCooldownStart(ns);
         		food.setInCooldown(true);
         	}
         }
         
         if (collected.get(Resource.FOOD) >= 150 && collected.get(Resource.STONE) >= 50 && !purchasedFOODHarvester1) {
-            btnsToDisplay.put(Button.HARVESTERFOOD1, null);
+            btnsToDisplay.put(Buttons.HARVESTERFOOD1, null);
         }
 
         if (purchasedFOODHarvester1) {
         	if (time % 120 == 0) {
         		addResource(Resource.FOOD, 1);
-        		Button food = Button.getButtonByResource(currentPlanet, Resource.FOOD);
+        		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);
         		food.setCooldownStart(ns);
         		food.setInCooldown(true);
         	}
