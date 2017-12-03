@@ -84,7 +84,7 @@ public class Game {
         }
         if (btnsToDisplay.size() > 1) { // They've gotten a new resource
         	time++;
-            if (time % 900 == 0) { //30 * 60 for 30 seconds and it gets called 60 times a second
+            if (time % 1800 == 0) { //30 * 60 for 30 seconds and it gets called 60 times a second
             	if (!(collected.get(Resource.FOOD) < 1)) {
             		addResource(Resource.FOOD, -1);
             	}
