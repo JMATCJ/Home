@@ -5,12 +5,9 @@ import static com.github.jmatcj.ld40.data.Planet.XEONUS;
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.gui.Button;
-import com.github.jmatcj.ld40.gui.ProgressBars;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -22,7 +19,6 @@ public class Game {
     private Planet currentPlanet;
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
-    private Map<ProgressBars, Button> barsToDisplay;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -31,8 +27,7 @@ public class Game {
             collected.put(r, 0);
         }
         btnsToDisplay = new EnumMap<>(Button.class);
-        btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, 65));
-        barsToDisplay = new HashMap<>();
+        btnsToDisplay.put(Button.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
 
     public void addResource(Resource resource, int amount) {
@@ -43,8 +38,26 @@ public class Game {
         if (collected.get(resource) == currentPlanet.getMoveOnAmountFor(resource)) {
             Button cur = Button.getButtonByResource(currentPlanet, resource);
             Button next = Button.values()[cur.ordinal() + 1];
-            btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
+            if (next.getPlanet() == currentPlanet) {
+                btnsToDisplay.put(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
+            } else {
+                btnsToDisplay.put(Button.CONFIRM_JUMP, null);
+            }
         }
+    }
+
+    public Planet getCurrentPlanet() {
+        return currentPlanet;
+    }
+
+    public void nextPlanet() {
+        currentPlanet = Planet.values()[currentPlanet.ordinal() + 1];
+        collected.clear();
+        for (Resource r : currentPlanet.getResources()) {
+            collected.put(r, 0);
+        }
+        btnsToDisplay.clear();
+        btnsToDisplay.put(Button.getButtonByResource(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
 
     public int getResource(Resource r) {

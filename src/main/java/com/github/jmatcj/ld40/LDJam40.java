@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LDJam40 extends Application {
@@ -43,11 +44,18 @@ public class LDJam40 extends Application {
                 game.update(now);
 
                 gc.clearRect(0, 0, 1280, 720);
-                gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
+                gc.drawImage(game.getCurrentPlanet().getBackground(), 0, 0);
+                new Text(Color.BLACK, 48, 10, 40).draw(gc, "Planet: " + game.getCurrentPlanet().getName());
                 //gc.fillRect(890, 530, 50, 5);
                 for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
-                    gc.drawImage(e.getKey().getImage(), e.getKey().getX(), e.getKey().getY());
-                    e.getValue().draw(gc,e.getKey().getResource().toString() + " " + game.getResource(e.getKey().getResource()));
+                    Button bt = e.getKey();
+                    gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
+                    if (e.getValue() != null) { // Special case for the "Jump to next planet button"
+                        e.getValue().draw(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()));
+                    }
+                    if (bt.inCooldown()) {
+                        gc.fillRect(bt.getX(), bt.getY(), ((now - bt.getCooldownStart()) / ((double)bt.getCooldownTime())) * bt.getImage().getWidth(), 5);
+                    }
                 }
             }
         };

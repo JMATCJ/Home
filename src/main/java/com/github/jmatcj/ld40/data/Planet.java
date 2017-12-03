@@ -2,23 +2,27 @@ package com.github.jmatcj.ld40.data;
 
 import static com.github.jmatcj.ld40.data.Resource.*;
 
+import com.github.jmatcj.ld40.util.AssetLoader;
 import java.util.EnumMap;
 import java.util.Map;
+import javafx.scene.image.Image;
 
 public enum Planet {
-    XEONUS("Xeonus", FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
-    DASKOTH("Daskoth", FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
-    LEYMIA("Leymia", FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800);
+    XEONUS("Xeonus", AssetLoader.getImage("background_one.png"), FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
+    DASKOTH("Daskoth", AssetLoader.getImage("background_two.png"), FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
+    LEYMIA("Leymia", AssetLoader.getImage("background_three.png"), FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800);
 
     private String name;
+    private Image background;
     // The list is ordered
     private Resource[] resources;
     // The amount needed of a specified resource to move on to the next point
     private Map<Resource, Integer> moveOnAmount;
 
     // Resource should always be 4, so that's why I'm going array
-    Planet(String name, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
+    Planet(String name, Image background, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
         this.name = name;
+        this.background = background;
         this.resources = new Resource[]{r1, r2, r3, r4};
         this.moveOnAmount = new EnumMap<>(Resource.class);
         this.moveOnAmount.put(r1, moa1);
@@ -29,6 +33,10 @@ public enum Planet {
 
     public String getName() {
         return name;
+    }
+
+    public Image getBackground() {
+        return background;
     }
 
     public Resource[] getResources() {
