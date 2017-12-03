@@ -44,6 +44,7 @@ public class LDJam40 extends Application {
 
                 gc.clearRect(0, 0, 1280, 720);
                 gc.drawImage(AssetLoader.getImage("background_one.png"), 0, 0);
+                //gc.fillRect(890, 530, 50, 5);
                 for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
                     gc.drawImage(e.getKey().getImage(), e.getKey().getX(), e.getKey().getY());
                     e.getValue().draw(gc,e.getKey().getResource().toString() + " " + game.getResource(e.getKey().getResource()));
