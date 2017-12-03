@@ -8,7 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public enum Upgrade implements Updatable {
-    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 5, Resource.STONE, 2),
+    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 50, Resource.STONE, 20),
     HARVESTERFOOD2(2, 1, Resource.FOOD, Resource.FOOD, 150, Resource.STONE, 50);
 
     private int secBetweenCycles;
