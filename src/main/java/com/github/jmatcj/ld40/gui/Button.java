@@ -29,19 +29,32 @@ public enum Button {
             }
         }
     },
-    HARVESTER(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) {
+    HARVESTERFOOD(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) {
         @Override
         public void click(MouseEvent e, Game g) {
             if (inBounds(e.getX(), e.getY())) {
-                if (g.getResource(Resource.FOOD) >= 50) {
+                if (g.getResource(Resource.FOOD) >= 50 && g.getResource(Resource.STONE) >= 20) {
                     g.addResource(Resource.FOOD, -50);
-                    g.toggleHarvester();
-                    g.getButtonsOnDisplay().remove(Button.HARVESTER);
+                    g.addResource(Resource.STONE, -20);
+                    g.toggleFOODHarvester();
+                    g.getButtonsOnDisplay().remove(Button.HARVESTERFOOD);
+                }
+            }
+        }
+    },
+    HARVESTERFOOD1(null, null, AssetLoader.getImage("button_isol.png"), 0, 50, 50) {
+        @Override
+        public void click(MouseEvent e, Game g) {
+            if (inBounds(e.getX(), e.getY())) {
+                if (g.getResource(Resource.FOOD) >= 55 && g.getResource(Resource.STONE) >= 20) {
+                    g.addResource(Resource.FOOD, -50);
+                    g.addResource(Resource.STONE, -20);
+                    g.toggleFOODHarvester1();
+                    g.getButtonsOnDisplay().remove(Button.HARVESTERFOOD1);
                 }
             }
         }
     };
-
 
     private Image image;
     private Resource resource;

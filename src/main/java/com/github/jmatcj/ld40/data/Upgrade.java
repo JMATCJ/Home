@@ -1,7 +1,7 @@
 package com.github.jmatcj.ld40.data;
 
 public enum Upgrade {
-    HARVESTER(Resource.FOOD, 50);
+    HARVESTERFOOD(Resource.FOOD, 50);
 
     private Resource resNeeded;
     private int amtNeeded;

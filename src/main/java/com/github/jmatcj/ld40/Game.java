@@ -6,7 +6,6 @@ import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
-import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
 import java.util.Map;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +20,9 @@ public class Game {
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
     private int time = 0;
-    private boolean purchasedHarvester = false;
+    private boolean purchasedFOODHarvester = false;
+    private boolean hasBeenPurchased = false;  
+    private boolean purchasedFOODHarvester1 = false;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -71,8 +72,14 @@ public class Game {
         return btnsToDisplay;
     }
 
-    public void toggleHarvester() {
-        purchasedHarvester = true;
+    public void toggleFOODHarvester() {
+        purchasedFOODHarvester = true;
+    }
+    
+    public void toggleFOODHarvester1() {
+    	purchasedFOODHarvester1 = true;
+    	purchasedFOODHarvester = false;
+    	hasBeenPurchased = true;
     }
 
     public void onClick(MouseEvent e) {
@@ -97,12 +104,25 @@ public class Game {
             }
         }
 
-        if (collected.get(Resource.FOOD) >= 50 && !purchasedHarvester) {
-            btnsToDisplay.put(Button.HARVESTER, null);
+        if (collected.get(Resource.FOOD) >= 50 && collected.get(Resource.STONE) >= 20 && !purchasedFOODHarvester && !hasBeenPurchased) {
+            btnsToDisplay.put(Button.HARVESTERFOOD, null);
         }
 
-        if (purchasedHarvester) {
+        if (purchasedFOODHarvester) {
         	if (time % 180 == 0) {
+        		addResource(Resource.FOOD, 1);
+        		Button food = Button.getButtonByResource(currentPlanet, Resource.FOOD);
+        		food.setCooldownStart(ns);
+        		food.setInCooldown(true);
+        	}
+        }
+        
+        if (collected.get(Resource.FOOD) >= 55 && collected.get(Resource.STONE) >= 20 && !purchasedFOODHarvester1) {
+            btnsToDisplay.put(Button.HARVESTERFOOD1, null);
+        }
+
+        if (purchasedFOODHarvester1) {
+        	if (time % 120 == 0) {
         		addResource(Resource.FOOD, 1);
         		Button food = Button.getButtonByResource(currentPlanet, Resource.FOOD);
         		food.setCooldownStart(ns);
