@@ -19,6 +19,8 @@ public class Game {
     private Planet currentPlanet;
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
+    int time = 0;
+    boolean purchasedHarvester = false;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -74,7 +76,6 @@ public class Game {
         }
     }
 
-    int time = 0;
     public void update(long ns) {
         if (startNS == null) {
             startNS = ns;
@@ -89,6 +90,15 @@ public class Game {
             		addResource(Resource.FOOD, -1);
             	}
             }
+        }
+        if (collected.get(Resource.FOOD) > 50) {
+        	addResource(Resource.FOOD, -50);
+        	purchasedHarvester = true;
+        }
+        if (purchasedHarvester) {
+        	if (time % 120 == 0) {
+        		addResource(Resource.FOOD, +1);
+        	}
         }
     }
 }
