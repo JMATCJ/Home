@@ -57,7 +57,11 @@ public class Game {
                 if (next.getPlanet() == currentPlanet) {
                     addButton(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
                 } else {
-                    addButton(Buttons.CONFIRM_JUMP, null);
+                    if (next.getPlanet() == Planet.DASKOTH) {
+                        addButton(Buttons.CONFIRM_JUMP_ONE, null);
+                    } else {
+                        addButton(Buttons.CONFIRM_JUMP_TWO, null);
+                    }
                 }
             }
         }

@@ -8,6 +8,8 @@ import com.github.jmatcj.ld40.util.AssetLoader;
 import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
 import java.util.Map;
+
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
 public final class Buttons {
@@ -35,7 +37,18 @@ public final class Buttons {
         UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD2, HARVESTERFOOD2);
     }
 
-    public static final Button CONFIRM_JUMP = new Button(AssetLoader.getImage("test_button.png"), 0, 40) {
+    public static final Button CONFIRM_JUMP_ONE = new Button(AssetLoader.getImage("button_planet_two.png"), 0, 40) {
+        @Override
+        public boolean click(MouseEvent e, Game g) {
+            if (inBounds(e.getX(), e.getY())) {
+                g.nextPlanet();
+                return true;
+            }
+            return false;
+        }
+    };
+
+    public static final Button CONFIRM_JUMP_TWO = new Button(AssetLoader.getImage("button_planet_three.png"), 0, 40) {
         @Override
         public boolean click(MouseEvent e, Game g) {
             if (inBounds(e.getX(), e.getY())) {
