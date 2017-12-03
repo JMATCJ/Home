@@ -11,6 +11,7 @@ import com.github.jmatcj.ld40.gui.ResourceButton;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.tick.FoodEater;
 import com.github.jmatcj.ld40.tick.Updatable;
+import java.util.ConcurrentModificationException;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -50,11 +51,14 @@ public class Game {
         }
         if (collected.get(resource) == currentPlanet.getMoveOnAmountFor(resource)) {
             ResourceButton cur = Buttons.getResourceButton(currentPlanet, resource);
-            ResourceButton next = Buttons.RESOURCE_BUTTONS[cur.ordinal() + 1];
-            if (next.getPlanet() == currentPlanet) {
-                addButton(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
-            } else {
-                addButton(Buttons.CONFIRM_JUMP, null);
+            int nextIndex = cur.ordinal() + 1;
+            if (nextIndex < Buttons.RESOURCE_BUTTONS.length) {
+                ResourceButton next = Buttons.RESOURCE_BUTTONS[nextIndex];
+                if (next.getPlanet() == currentPlanet) {
+                    addButton(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
+                } else {
+                    addButton(Buttons.CONFIRM_JUMP, null);
+                }
             }
         }
     }
@@ -69,7 +73,7 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        btnsToDisplay.forEach((button, text) -> removeButton(button));
+        try { btnsToDisplay.forEach((button, text) -> removeButton(button)); } catch (ConcurrentModificationException cme) {} // Throws CME, but works if suppressed.
         addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
 
