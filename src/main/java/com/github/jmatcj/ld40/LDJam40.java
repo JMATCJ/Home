@@ -67,7 +67,7 @@ public class LDJam40 extends Application {
 
         //TODO: Look into OGG later.
         if (!getParameters().getRaw().contains("-nomusic")) {
-            MediaPlayer player = new MediaPlayer(AssetLoader.getMusic("main.mp3"));
+            MediaPlayer player = new MediaPlayer(AssetLoader.getMusic("planet_one_theme.mp3"));
             player.setVolume(0.2);
             player.setCycleCount(MediaPlayer.INDEFINITE);
             player.play();

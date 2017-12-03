@@ -1,14 +1,14 @@
 package com.github.jmatcj.ld40.util;
 
-import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-
+import com.github.jmatcj.ld40.LDJam40;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 
 public class AssetLoader {
     private static final String ASSETS_DIR = "/assets/ld40/";
@@ -20,11 +20,11 @@ public class AssetLoader {
     private static Map<String, Media> music;
     private static String fontLoc;
 
+    //TODO: Fix JAR file assets
     public static void initialize(boolean noMusic) throws IOException {
         // FONT
         System.out.println("Loading Code Bold font...");
         fontLoc = AssetLoader.class.getResource(FONT_LOC).toExternalForm();
-
         // IMAGES
         images = new HashMap<>();
         InputStream is = AssetLoader.class.getResourceAsStream(IMAGES_DIR);

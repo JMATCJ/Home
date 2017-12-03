@@ -104,6 +104,7 @@ public class Game {
         if (purchasedHarvester) {
         	if (time % 120 == 0) {
         		addResource(Resource.FOOD, +1);
+        		Button.getButtonByResource(currentPlanet, Resource.FOOD).setInCooldown(true);
         	}
         }
     }

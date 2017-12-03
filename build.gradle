@@ -6,3 +6,9 @@ plugins {
 
 version = 'LD'
 archivesBaseName = 'JMCJ-LDJam40'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.jmatcj.ld40.LDJam40'
+    }
+}

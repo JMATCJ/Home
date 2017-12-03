@@ -98,6 +98,10 @@ public enum Button {
         return inCooldown;
     }
 
+    public void setInCooldown(boolean inCooldown) {
+        this.inCooldown = inCooldown;
+    }
+
     public long getCooldownTime() {
         return cooldownTime;
     }
