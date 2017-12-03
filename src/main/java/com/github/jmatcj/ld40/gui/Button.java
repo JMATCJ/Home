@@ -32,7 +32,7 @@ public class Button implements Updatable {
         return false; // Does nothing by default
     }
 
-    public void update(long ns) {} // Does nothing by default
+    public void update(Game g, long ns) {} // Does nothing by default
 
     protected boolean inBounds(double x, double y) {
         return x >= this.buttonX && x <= this.buttonX + image.getWidth() && y >= this.buttonY && y <= this.buttonY + image.getHeight();

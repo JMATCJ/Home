@@ -1,29 +1,39 @@
 package com.github.jmatcj.ld40.data;
 
 import com.github.jmatcj.ld40.Game;
+import com.github.jmatcj.ld40.gui.Buttons;
+import com.github.jmatcj.ld40.tick.Updatable;
+import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Set;
 
-public enum Upgrade {
-    HARVESTERFOOD1(Resource.FOOD, 5, Resource.STONE, 2),
-    HARVESTERFOOD2(Resource.FOOD, 150, Resource.STONE, 50);
+public enum Upgrade implements Updatable {
+    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 5, Resource.STONE, 2),
+    HARVESTERFOOD2(2, 1, Resource.FOOD, Resource.FOOD, 150, Resource.STONE, 50);
 
+    private int secBetweenCycles;
+    private int numToAdd;
+    private Resource rToAdd;
+    private long startNS;
     private Map<Resource, Integer> requirements;
 
-    Upgrade(Resource r1, Integer amt1) {
-        this(r1, amt1, null, null, null, null, null, null);
+    Upgrade(int secBetweenCycles, int numToAdd, Resource rToAdd, Resource r1, Integer amt1) {
+        this(secBetweenCycles, numToAdd, rToAdd, r1, amt1, null, null, null, null, null, null);
     }
 
-    Upgrade(Resource r1, Integer amt1, Resource r2, Integer amt2) {
-        this(r1, amt1, r2, amt2, null, null, null, null);
+    Upgrade(int secBetweenCycles, int numToAdd, Resource rToAdd, Resource r1, Integer amt1, Resource r2, Integer amt2) {
+        this(secBetweenCycles, numToAdd, rToAdd, r1, amt1, r2, amt2, null, null, null, null);
     }
 
-    Upgrade(Resource r1, Integer amt1, Resource r2, Integer amt2, Resource r3, Integer amt3) {
-        this(r1, amt1, r2, amt2, r3, amt3, null, null);
+    Upgrade(int secBetweenCycles, int numToAdd, Resource rToAdd, Resource r1, Integer amt1, Resource r2, Integer amt2, Resource r3, Integer amt3) {
+        this(secBetweenCycles, numToAdd, rToAdd, r1, amt1, r2, amt2, r3, amt3, null, null);
     }
 
-    Upgrade(Resource r1, Integer amt1, Resource r2, Integer amt2, Resource r3, Integer amt3, Resource r4, Integer amt4) {
+    Upgrade(int secBetweenCycles, int numToAdd, Resource rToAdd, Resource r1, Integer amt1, Resource r2, Integer amt2, Resource r3, Integer amt3, Resource r4, Integer amt4) {
+        this.secBetweenCycles = secBetweenCycles;
+        this.numToAdd = numToAdd;
+        this.rToAdd = rToAdd;
+        this.startNS = 0L;
         requirements = new EnumMap<>(Resource.class);
         requirements.put(r1, amt1);
         if (r2 != null) {
@@ -53,7 +63,14 @@ public enum Upgrade {
         }
     }
 
-    public Set<Map.Entry<Resource, Integer>> getRequirements() {
-        return requirements.entrySet();
+    @Override
+    public void update(Game g, long ns) {
+        if (startNS == 0) {
+            startNS = ns;
+        } else if (Util.hasTimeElapsed(startNS, ns, secBetweenCycles)) {
+            g.addResource(rToAdd, numToAdd);
+            Buttons.getResourceButton(g.getCurrentPlanet(), rToAdd).startCooldown(ns);
+            startNS = ns;
+        }
     }
 }

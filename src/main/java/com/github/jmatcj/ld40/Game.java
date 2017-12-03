@@ -29,11 +29,6 @@ public class Game {
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
     private Set<Upgrade> upgradesPurchased;
-    private long time = 0;
-    private boolean purchasedHarvester = false;
-    private boolean purchasedFOODHarvester = false;
-    private boolean hasBeenPurchased = false;
-    private boolean purchasedFOODHarvester1 = false;
 
     public Game() {
         currentPlanet = XEONUS;
@@ -43,7 +38,7 @@ public class Game {
         }
         upgradesPurchased = EnumSet.noneOf(Upgrade.class);
         updateListeners = new HashSet<>();
-        addUpdateListener(new FoodEater(this));
+        addUpdateListener(new FoodEater());
         btnsToDisplay = new HashMap<>();
         addButton(Buttons.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
     }
@@ -86,16 +81,6 @@ public class Game {
         return btnsToDisplay;
     }
 
-    public void toggleFOODHarvester() {
-        purchasedFOODHarvester = true;
-    }
-
-    public void toggleFOODHarvester1() {
-    	purchasedFOODHarvester1 = true;
-    	purchasedFOODHarvester = false;
-    	hasBeenPurchased = true;
-    }
-
     public void addButton(Button b, Text t) {
         btnsToDisplay.put(b, t);
         updateListeners.add(b);
@@ -116,6 +101,7 @@ public class Game {
 
     public void applyUpgrade(Upgrade upgrade) {
         upgradesPurchased.add(upgrade);
+        updateListeners.add(upgrade);
     }
 
     public boolean addUpdateListener(Updatable updatable) {
@@ -130,32 +116,13 @@ public class Game {
         if (startNS == null) {
             startNS = ns;
         }
-        time++;
 
-        updateListeners.forEach(u -> u.update(ns));
+        updateListeners.forEach(u -> u.update(this, ns));
 
         for (Upgrade u : Upgrade.values()) {
             if (u.canUnlock(this)) {
                 addButton(Buttons.UPGRADE_BUTTONS.get(u), null);
             }
-        }
-
-        if (upgradesPurchased.contains(Upgrade.HARVESTERFOOD1)) {
-        	if (time % 180 == 0) {
-        		addResource(Resource.FOOD, 1);
-        		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);
-        		food.setCooldownStart(ns);
-        		food.setInCooldown(true);
-        	}
-        }
-
-        if (upgradesPurchased.contains(Upgrade.HARVESTERFOOD2)) {
-        	if (time % 120 == 0) {
-        		addResource(Resource.FOOD, 1);
-        		ResourceButton food = Buttons.getResourceButton(currentPlanet, Resource.FOOD);
-        		food.setCooldownStart(ns);
-        		food.setInCooldown(true);
-        	}
         }
     }
 }

@@ -44,10 +44,6 @@ public class ResourceButton extends Button {
         return inCooldown;
     }
 
-    public void setInCooldown(boolean inCooldown) {
-        this.inCooldown = inCooldown;
-    }
-
     public long getCooldownTime() {
         return cooldownTime;
     }
@@ -56,8 +52,9 @@ public class ResourceButton extends Button {
         return cooldownStart;
     }
 
-    public void setCooldownStart(long cooldownStart) {
-        this.cooldownStart = cooldownStart;
+    public void startCooldown(long startNS) {
+        inCooldown = true;
+        cooldownStart = startNS;
     }
 
     @Override
@@ -71,7 +68,7 @@ public class ResourceButton extends Button {
     }
 
     @Override
-    public void update(long ns) {
+    public void update(Game g, long ns) {
         if (inCooldown) {
             if (cooldownStart != -1) {
                 if (ns >= cooldownStart + cooldownTime) {
