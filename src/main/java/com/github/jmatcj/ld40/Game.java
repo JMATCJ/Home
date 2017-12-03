@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
 public class Game {
     private static final int[] RES_Y_VALUES = {65, 105, 145, 185};
 
+    private boolean noCooldown;
     private Long startNS;
     private Planet currentPlanet;
     private Set<Updatable> updateListeners;
@@ -32,6 +33,7 @@ public class Game {
     private Set<Upgrade> upgradesPurchased;
 
     public Game() {
+        noCooldown = false;
         currentPlanet = XEONUS;
         collected = new EnumMap<>(Resource.class);
         for (Resource r : currentPlanet.getResources()) {
@@ -42,6 +44,17 @@ public class Game {
         addUpdateListener(new FoodEater());
         btnsToDisplay = new HashMap<>();
         addButton(Buttons.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
+    }
+
+    public boolean isNoCooldown() {
+        return noCooldown;
+    }
+
+    public void setNoCooldown(boolean noCooldown) {
+        this.noCooldown = noCooldown;
+        if (noCooldown) {
+            System.out.println("-nocooldown specified. All cooldowns will be ignored.");
+        }
     }
 
     public void addResource(Resource resource, int amount) {

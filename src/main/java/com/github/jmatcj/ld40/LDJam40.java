@@ -28,6 +28,7 @@ public class LDJam40 extends Application {
         AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
         game = new Game();
         Planet.debug(getParameters().getRaw().contains("-debug"));
+        game.setNoCooldown(getParameters().getRaw().contains("-nocooldown"));
     }
 
     @Override

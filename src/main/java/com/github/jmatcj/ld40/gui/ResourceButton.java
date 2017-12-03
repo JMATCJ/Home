@@ -69,7 +69,9 @@ public class ResourceButton extends Button {
 
     @Override
     public void update(Game g, long ns) {
-        if (inCooldown) {
+        if (g.isNoCooldown()) {
+            inCooldown = false;
+        } else if (inCooldown) {
             if (cooldownStart != -1) {
                 if (ns >= cooldownStart + cooldownTime) {
                     inCooldown = false;
