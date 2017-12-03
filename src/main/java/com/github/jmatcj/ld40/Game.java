@@ -116,7 +116,7 @@ public class Game {
         	}
         }
         
-        if (collected.get(Resource.FOOD) >= 55 && collected.get(Resource.STONE) >= 20 && !purchasedFOODHarvester1) {
+        if (collected.get(Resource.FOOD) >= 150 && collected.get(Resource.STONE) >= 50 && !purchasedFOODHarvester1) {
             btnsToDisplay.put(Button.HARVESTERFOOD1, null);
         }
 

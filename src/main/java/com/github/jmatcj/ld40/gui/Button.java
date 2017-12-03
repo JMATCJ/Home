@@ -42,13 +42,13 @@ public enum Button {
             }
         }
     },
-    HARVESTERFOOD1(null, null, AssetLoader.getImage("button_isol.png"), 0, 50, 50) { //second upgrade for food
+    HARVESTERFOOD1(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) { //second upgrade for food
         @Override
         public void click(MouseEvent e, Game g) {
             if (inBounds(e.getX(), e.getY())) {
-                if (g.getResource(Resource.FOOD) >= 55 && g.getResource(Resource.STONE) >= 20) {
-                    g.addResource(Resource.FOOD, -50);
-                    g.addResource(Resource.STONE, -20);
+                if (g.getResource(Resource.FOOD) >= 150 && g.getResource(Resource.STONE) >= 50) {
+                    g.addResource(Resource.FOOD, -150);
+                    g.addResource(Resource.STONE, -50);
                     g.toggleFOODHarvester1();
                     g.getButtonsOnDisplay().remove(Button.HARVESTERFOOD1);
                 }
