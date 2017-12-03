@@ -48,7 +48,6 @@ public class LDJam40 extends Application {
             gc.clearRect(0, 0, 1280, 720);
             gc.drawImage(game.getCurrentPlanet().getBackground(), 0, 0);
             new Text(game.getCurrentPlanet().getTextColor(), 48, 10, 40).draw(gc, "Planet: " + game.getCurrentPlanet().getName());
-            //gc.fillRect(890, 530, 50, 5);
             for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
                 Button bt = e.getKey();
                 gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
