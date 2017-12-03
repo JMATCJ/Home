@@ -71,6 +71,17 @@ public final class Buttons {
         }
     };
 
+    public static final Button CONFIRM_JUMP_THREE = new Button(AssetLoader.getImage("test_button.png"), 0, 40) {
+        @Override
+        public boolean click(MouseEvent e, Game g) {
+            if (inBounds(e.getX(), e.getY())) {
+                g.nextPlanet();
+                return true;
+            }
+            return false;
+        }
+    };
+
     /*public static final ResourceButton HARVESTER = new ResourceButton(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) {
         @Override
         public void click(MouseEvent e, Game g) {

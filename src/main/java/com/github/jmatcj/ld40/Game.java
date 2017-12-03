@@ -72,8 +72,10 @@ public class Game {
                 } else {
                     if (next.getPlanet() == Planet.DASKOTH) {
                         addButton(Buttons.CONFIRM_JUMP_ONE, null);
-                    } else {
+                    } else if (next.getPlanet() == Planet.LEYMIA) {
                         addButton(Buttons.CONFIRM_JUMP_TWO, null);
+                    } else {
+                        addButton(Buttons.CONFIRM_JUMP_THREE, null);
                     }
                 }
             }
