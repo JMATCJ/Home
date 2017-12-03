@@ -97,12 +97,12 @@ public class Game {
             }
         }
 
-        if (collected.get(Resource.FOOD) >= 50) {
+        if (collected.get(Resource.FOOD) >= 5 && purchasedHarvester == false) {
             btnsToDisplay.put(Button.HARVESTER, null);
         }
 
         if (purchasedHarvester) {
-        	if (time % 120 == 0) {
+        	if (time % 180 == 0) {
         		addResource(Resource.FOOD, +1);
         		Button.getButtonByResource(currentPlanet, Resource.FOOD).setInCooldown(true);
         	}
