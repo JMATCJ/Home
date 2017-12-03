@@ -5,18 +5,19 @@ import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
 import java.util.Map;
-import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class LDJam40 extends Application {
-    private AnimationTimer gameLoop;
+    private Timeline gameLoop;
     private Game game;
 
     @Override
@@ -38,29 +39,30 @@ public class LDJam40 extends Application {
 
         scene.setOnMouseClicked(event -> game.onClick(event));
 
-        gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                game.update(now);
+        gameLoop = new Timeline();
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame loop = new KeyFrame(Duration.millis(16.67), event -> { // ~60FPS
+            long now = System.nanoTime();
+            game.update(now);
 
-                gc.clearRect(0, 0, 1280, 720);
-                gc.drawImage(game.getCurrentPlanet().getBackground(), 0, 0);
-                new Text(Color.BLACK, 48, 10, 40).draw(gc, "Planet: " + game.getCurrentPlanet().getName());
-                //gc.fillRect(890, 530, 50, 5);
-                for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
-                    Button bt = e.getKey();
-                    gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
-                    if (e.getValue() != null) { // Special case for the "Jump to next planet button"
-                        e.getValue().draw(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()));
-                    }
-                    if (bt.inCooldown()) {
-                        gc.fillRect(bt.getX(), bt.getY(), ((now - bt.getCooldownStart()) / ((double)bt.getCooldownTime())) * bt.getImage().getWidth(), 5);
-                    }
+            gc.clearRect(0, 0, 1280, 720);
+            gc.drawImage(game.getCurrentPlanet().getBackground(), 0, 0);
+            new Text(game.getCurrentPlanet().getTextColor(), 48, 10, 40).draw(gc, "Planet: " + game.getCurrentPlanet().getName());
+            //gc.fillRect(890, 530, 50, 5);
+            for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
+                Button bt = e.getKey();
+                gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
+                if (e.getValue() != null) { // Special case for the "Jump to next planet button"
+                    e.getValue().draw(gc, bt.getResource().toString() + " " + game.getResource(bt.getResource()));
+                }
+                if (bt.inCooldown()) {
+                    gc.fillRect(bt.getX(), bt.getY(), ((now - bt.getCooldownStart()) / ((double)bt.getCooldownTime())) * bt.getImage().getWidth(), 5);
                 }
             }
-        };
+        });
 
-        gameLoop.start();
+        gameLoop.getKeyFrames().add(loop);
+        gameLoop.play();
 
         primaryStage.show();
 
