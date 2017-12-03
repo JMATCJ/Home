@@ -8,7 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public enum Upgrade implements Updatable {
-    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 5, Resource.STONE, 2),
+    HARVESTERFOOD1(3, 1, Resource.FOOD, Resource.FOOD, 50, Resource.STONE, 20),
     HARVESTERFOOD2(2, 1, Resource.FOOD, Resource.FOOD, 125, Resource.STONE, 35),
     QUARRY1(5, 1, Resource.STONE, Resource.IRON, 30, Resource.STONE, 100),
     QUARRY2(3, 1, Resource.STONE, Resource.IRON, 75, Resource.STONE, 250),
@@ -51,6 +51,10 @@ public enum Upgrade implements Updatable {
                 }
             }
         }
+    }
+
+    public Resource getResThatUpgradeIsFor() {
+        return rToAdd;
     }
 
     public boolean canUnlock(Game g) {

@@ -21,8 +21,13 @@ public class UpgradeButton extends Button {
             upgrade.removeResources(g);
             g.applyUpgrade(upgrade);
             g.removeButton(this);
+            purchased = true;
             return true;
         }
         return false;
+    }
+
+    public boolean hasBeenPurchased() {
+        return purchased;
     }
 }

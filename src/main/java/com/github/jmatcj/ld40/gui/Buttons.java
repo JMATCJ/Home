@@ -8,8 +8,6 @@ import com.github.jmatcj.ld40.util.AssetLoader;
 import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;
 import java.util.Map;
-
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
 public final class Buttons {
@@ -28,16 +26,16 @@ public final class Buttons {
 
     public static final ResourceButton[] RESOURCE_BUTTONS = {FOOD_ONE, STONE, IRON, CARBON, FOOD_TWO, COPPER, SILICON, TITANIUM, FOOD_THREE, HEXAPHESTRITE, ISOBELGOL, SELDROLE};
 
-    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD1, AssetLoader.getImage("test_button.png"), 50, 100);
-    public static final UpgradeButton HARVESTERFOOD2 = new UpgradeButton(Upgrade.HARVESTERFOOD2, AssetLoader.getImage("button_isol.png"), 50, 50);
-    public static final UpgradeButton QUARRY1 = new UpgradeButton(Upgrade.QUARRY1, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton QUARRY2 = new UpgradeButton(Upgrade.QUARRY2, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton QUARRY3 = new UpgradeButton(Upgrade.QUARRY3, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton QUARRY4 = new UpgradeButton(Upgrade.QUARRY4, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton QUARRY5 = new UpgradeButton(Upgrade.QUARRY5, AssetLoader.getImage("test_button.png"), 50, 50);
-    public static final UpgradeButton QUARRY6 = new UpgradeButton(Upgrade.QUARRY6, AssetLoader.getImage("test_button.png"), 50, 50);
+    public static final UpgradeButton HARVESTERFOOD1 = new UpgradeButton(Upgrade.HARVESTERFOOD1, AssetLoader.getImage("button_harvester_one.png"), 50, 100);
+    public static final UpgradeButton HARVESTERFOOD2 = new UpgradeButton(Upgrade.HARVESTERFOOD2, AssetLoader.getImage("button_harvester_two.png"), 50, 50);
+    public static final UpgradeButton QUARRY1 = new UpgradeButton(Upgrade.QUARRY1, AssetLoader.getImage("button_quarry_one.png"), 50, 50);
+    public static final UpgradeButton QUARRY2 = new UpgradeButton(Upgrade.QUARRY2, AssetLoader.getImage("button_quarry_two.png"), 50, 50);
+    public static final UpgradeButton QUARRY3 = new UpgradeButton(Upgrade.QUARRY3, AssetLoader.getImage("button_quarry_three.png"), 50, 50);
+    public static final UpgradeButton QUARRY4 = new UpgradeButton(Upgrade.QUARRY4, AssetLoader.getImage("button_quarry_four.png"), 50, 50);
+    public static final UpgradeButton QUARRY5 = new UpgradeButton(Upgrade.QUARRY5, AssetLoader.getImage("button_quarry_five.png"), 50, 50);
+    public static final UpgradeButton QUARRY6 = new UpgradeButton(Upgrade.QUARRY6, AssetLoader.getImage("button_quarry_six.png"), 50, 50);
 
-    public static final Map<Upgrade, Button> UPGRADE_BUTTONS = new EnumMap<>(Upgrade.class);
+    public static final Map<Upgrade, UpgradeButton> UPGRADE_BUTTONS = new EnumMap<>(Upgrade.class);
     static {
         UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD1, HARVESTERFOOD1);
         UPGRADE_BUTTONS.put(Upgrade.HARVESTERFOOD2, HARVESTERFOOD2);
@@ -59,7 +57,6 @@ public final class Buttons {
             return false;
         }
     };
-
     public static final Button CONFIRM_JUMP_TWO = new Button(AssetLoader.getImage("button_planet_three.png"), 0, 40) {
         @Override
         public boolean click(MouseEvent e, Game g) {
@@ -70,7 +67,6 @@ public final class Buttons {
             return false;
         }
     };
-
     public static final Button CONFIRM_JUMP_THREE = new Button(AssetLoader.getImage("test_button.png"), 0, 40) {
         @Override
         public boolean click(MouseEvent e, Game g) {
@@ -81,19 +77,6 @@ public final class Buttons {
             return false;
         }
     };
-
-    /*public static final ResourceButton HARVESTER = new ResourceButton(null, null, AssetLoader.getImage("test_button.png"), 0, 50, 50) {
-        @Override
-        public void click(MouseEvent e, Game g) {
-            if (inBounds(e.getX(), e.getY())) {
-                if (g.getResource(Resource.FOOD) >= 50) {
-                    g.addResource(Resource.FOOD, -50);
-                    g.toggleHarvester();
-                    g.getButtonsOnDisplay().remove(Button.HARVESTER);
-                }
-            }
-        }
-    };*/
 
     public static ResourceButton getResourceButton(Planet planet, Resource resource) {
         for (ResourceButton b : RESOURCE_BUTTONS) {

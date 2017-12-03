@@ -9,6 +9,7 @@ import com.github.jmatcj.ld40.gui.Button;
 import com.github.jmatcj.ld40.gui.Buttons;
 import com.github.jmatcj.ld40.gui.ResourceButton;
 import com.github.jmatcj.ld40.gui.Text;
+import com.github.jmatcj.ld40.gui.UpgradeButton;
 import com.github.jmatcj.ld40.tick.FoodEater;
 import com.github.jmatcj.ld40.tick.Updatable;
 import java.util.ConcurrentModificationException;
@@ -30,7 +31,6 @@ public class Game {
     private Set<Updatable> updateListeners;
     private Map<Resource, Integer> collected;
     private Map<Button, Text> btnsToDisplay;
-    private Set<Upgrade> upgradesPurchased;
 
     public Game() {
         noCooldown = false;
@@ -39,7 +39,6 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        upgradesPurchased = EnumSet.noneOf(Upgrade.class);
         updateListeners = new HashSet<>();
         addUpdateListener(new FoodEater());
         btnsToDisplay = new HashMap<>();
@@ -97,7 +96,7 @@ public class Game {
     }
 
     public int getResource(Resource r) {
-        return collected.get(r);
+        return collected.getOrDefault(r, -1);
     }
 
     public Map<Button, Text> getButtonsOnDisplay() {
@@ -106,12 +105,12 @@ public class Game {
 
     public void addButton(Button b, Text t) {
         btnsToDisplay.put(b, t);
-        updateListeners.add(b);
+        addUpdateListener(b);
     }
 
     public void removeButton(Button b) {
         btnsToDisplay.remove(b);
-        updateListeners.remove(b);
+        removeUpdateListener(b);
     }
 
     public void onClick(MouseEvent e) {
@@ -123,8 +122,13 @@ public class Game {
     }
 
     public void applyUpgrade(Upgrade upgrade) {
-        upgradesPurchased.add(upgrade);
-        updateListeners.add(upgrade);
+        if (upgrade.ordinal() > 0) {
+            Upgrade prevUp = Upgrade.values()[upgrade.ordinal() - 1];
+            if (prevUp.getResThatUpgradeIsFor() == upgrade.getResThatUpgradeIsFor()) {
+                removeUpdateListener(prevUp);
+            }
+        }
+        addUpdateListener(upgrade);
     }
 
     public boolean addUpdateListener(Updatable updatable) {
@@ -144,7 +148,10 @@ public class Game {
 
         for (Upgrade u : Upgrade.values()) {
             if (u.canUnlock(this)) {
-                addButton(Buttons.UPGRADE_BUTTONS.get(u), null);
+                UpgradeButton bt = Buttons.UPGRADE_BUTTONS.get(u);
+                if (!bt.hasBeenPurchased()) {
+                    addButton(bt, null);
+                }
             }
         }
     }
