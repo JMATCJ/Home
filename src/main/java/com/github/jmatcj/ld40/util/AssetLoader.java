@@ -47,7 +47,7 @@ public class AssetLoader {
             if (p.toString().endsWith(".png")) {
                 String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
                 System.out.println(key + " being loaded...");
-                images.put(key, new Image(p.toUri().toString()));
+                images.put(key, new Image(p.toUri().toString().replace("%2520", "%20"))); // Cleanup bad spaces in path
             }
         });
         // MUSIC
@@ -63,7 +63,7 @@ public class AssetLoader {
                 if (p.toString().endsWith(".mp3")) {
                     String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
                     System.out.println(key + " being loaded...");
-                    music.put(key, new Media(p.toUri().toString()));
+                    music.put(key, new Media(p.toUri().toString().replace("%2520", "%20"))); // Cleanup bad spaces in path
                 }
             });
         }
