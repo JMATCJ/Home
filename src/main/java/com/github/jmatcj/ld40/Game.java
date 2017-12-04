@@ -18,18 +18,21 @@ import java.util.Map;
 import java.util.Set;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.MediaPlayer;
 
 public class Game {
     public static final int[] RES_Y_VALUES = {40, 80, 120, 160};
 
     private boolean noCooldown;
+    private boolean noMedia;
     private Long startNS;
     private Planet currentPlanet;
     private Set<Updatable> updateListeners;
     private Set<Drawable> drawables;
     private Map<Resource, Integer> collected;
+    private MediaPlayer player;
 
-    public Game() {
+    public Game(boolean noMedia) {
         noCooldown = false;
         currentPlanet = Planet.XEONUS;
         collected = new EnumMap<>(Resource.class);
@@ -43,6 +46,7 @@ public class Game {
         addDrawListener(fe);
         addDrawListener(new PlanetText());
         addButton(Buttons.FOOD_ONE);
+        this.noMedia = noMedia;
     }
 
     public boolean isNoCooldown() {
@@ -53,6 +57,15 @@ public class Game {
         this.noCooldown = noCooldown;
         if (noCooldown) {
             System.out.println("-nocooldown specified. All cooldowns will be ignored.");
+        }
+    }
+
+    void playTheme() {
+        if (!noMedia) {
+            player = new MediaPlayer(currentPlanet.getTheme());
+            player.setVolume(0.2);
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+            player.play();
         }
     }
 
@@ -93,6 +106,8 @@ public class Game {
         }
         try { drawables.stream().filter(d -> d instanceof Button).forEach(d -> removeButton((Button)d)); } catch (ConcurrentModificationException cme) {} // Throws CME, but works if suppressed.
         addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD));
+        player.stop();
+        playTheme();
     }
 
     public int getResource(Resource r) {

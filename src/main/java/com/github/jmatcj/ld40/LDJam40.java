@@ -22,7 +22,7 @@ public class LDJam40 extends Application {
         // Load resources
         // At this stage, the stage (heh) hasn't been shown yet
         AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
-        game = new Game();
+        game = new Game(getParameters().getRaw().contains("-nomusic"));
         Planet.debug(getParameters().getRaw().contains("-debug"));
         game.setNoCooldown(getParameters().getRaw().contains("-nocooldown"));
     }
@@ -53,13 +53,7 @@ public class LDJam40 extends Application {
 
         primaryStage.show();
 
-        //TODO: FIX THIS DAMNIT
-        if (!getParameters().getRaw().contains("-nomusic")) {
-            MediaPlayer player = new MediaPlayer(AssetLoader.getMusic("planet_one_theme.mp3"));
-            player.setVolume(0.2);
-            player.setCycleCount(MediaPlayer.INDEFINITE);
-            player.play();
-        }
+        game.playTheme();
     }
 
     @Override

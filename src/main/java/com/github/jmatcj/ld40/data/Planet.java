@@ -6,30 +6,33 @@ import com.github.jmatcj.ld40.util.AssetLoader;
 import java.util.EnumMap;
 import java.util.Map;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 
 public enum Planet {
-    XEONUS("Xeonus", AssetLoader.getImage("background_one.png"), FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
-    DASKOTH("Daskoth", Color.WHITE, AssetLoader.getImage("background_two.png"), FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
-    LEYMIA("Leymia", AssetLoader.getImage("background_three.png"), FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800);
+    XEONUS("Xeonus", AssetLoader.getImage("background_one.png"), AssetLoader.getMusic("planet_one_theme.mp3"), FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
+    DASKOTH("Daskoth", Color.WHITE, AssetLoader.getImage("background_two.png"), AssetLoader.getMusic("planet_two_theme.mp3"), FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
+    LEYMIA("Leymia", AssetLoader.getImage("background_three.png"), AssetLoader.getMusic("planet_three_theme.mp3"), FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800);
 
     private String name;
     private Color textColor;
     private Image background;
+    private Media theme;
     // The list is ordered
     private Resource[] resources;
     // The amount needed of a specified resource to move on to the next point
     private Map<Resource, Integer> moveOnAmount;
 
-    Planet(String name, Image background, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
-        this(name, Color.BLACK, background, r1, moa1, r2, moa2, r3, moa3, r4, moa4);
+    Planet(String name, Image background, Media theme, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
+        this(name, Color.BLACK, background, theme, r1, moa1, r2, moa2, r3, moa3, r4, moa4);
     }
 
     // Resource should always be 4, so that's why I'm going array
-    Planet(String name, Color color, Image background, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
+    Planet(String name, Color color, Image background, Media theme, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
         this.name = name;
         this.textColor = color;
         this.background = background;
+        this.theme = theme;
         this.resources = new Resource[]{r1, r2, r3, r4};
         this.moveOnAmount = new EnumMap<>(Resource.class);
         this.moveOnAmount.put(r1, moa1);
@@ -48,6 +51,10 @@ public enum Planet {
 
     public Image getBackground() {
         return background;
+    }
+
+    public Media getTheme() {
+        return theme;
     }
 
     public Resource[] getResources() {
