@@ -1,11 +1,7 @@
 package com.github.jmatcj.ld40;
 
 import com.github.jmatcj.ld40.data.Planet;
-import com.github.jmatcj.ld40.gui.Button;
-import com.github.jmatcj.ld40.gui.ResourceButton;
-import com.github.jmatcj.ld40.gui.Text;
 import com.github.jmatcj.ld40.util.AssetLoader;
-import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -49,20 +45,7 @@ public class LDJam40 extends Application {
 
             gc.clearRect(0, 0, 1280, 720);
             gc.drawImage(game.getCurrentPlanet().getBackground(), 0, 0);
-            new Text(game.getCurrentPlanet().getTextColor(), 48, 10, 40).draw(gc, "Planet: " + game.getCurrentPlanet().getName());
-            for (Map.Entry<Button, Text> e : game.getButtonsOnDisplay().entrySet()) {
-                Button bt = e.getKey();
-                gc.drawImage(bt.getImage(), bt.getX(), bt.getY());
-                if (bt instanceof ResourceButton) {
-                    ResourceButton rbt = (ResourceButton)bt;
-                    if (e.getValue() != null) {
-                        e.getValue().draw(gc, rbt.getResource().toString() + " " + game.getResource(rbt.getResource()));
-                    }
-                    if (rbt.inCooldown()) {
-                        gc.fillRect(bt.getX(), bt.getY(), ((now - rbt.getCooldownStart()) / ((double)rbt.getCooldownTime())) * bt.getImage().getWidth(), 5);
-                    }
-                }
-            }
+            game.draw(gc);
         });
 
         gameLoop.getKeyFrames().add(loop);
@@ -70,6 +53,7 @@ public class LDJam40 extends Application {
 
         primaryStage.show();
 
+        //TODO: FIX THIS DAMNIT
         if (!getParameters().getRaw().contains("-nomusic")) {
             MediaPlayer player = new MediaPlayer(AssetLoader.getMusic("planet_one_theme.mp3"));
             player.setVolume(0.2);

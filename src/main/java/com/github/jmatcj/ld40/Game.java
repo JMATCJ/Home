@@ -1,48 +1,48 @@
 package com.github.jmatcj.ld40;
 
-import static com.github.jmatcj.ld40.data.Planet.XEONUS;
-
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.data.Upgrade;
-import com.github.jmatcj.ld40.gui.Button;
-import com.github.jmatcj.ld40.gui.Buttons;
-import com.github.jmatcj.ld40.gui.ResourceButton;
-import com.github.jmatcj.ld40.gui.Text;
-import com.github.jmatcj.ld40.gui.UpgradeButton;
+import com.github.jmatcj.ld40.gui.Drawable;
+import com.github.jmatcj.ld40.gui.PlanetText;
+import com.github.jmatcj.ld40.gui.button.Button;
+import com.github.jmatcj.ld40.gui.button.Buttons;
+import com.github.jmatcj.ld40.gui.button.ResourceButton;
+import com.github.jmatcj.ld40.gui.button.UpgradeButton;
 import com.github.jmatcj.ld40.tick.FoodEater;
 import com.github.jmatcj.ld40.tick.Updatable;
 import java.util.ConcurrentModificationException;
 import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 public class Game {
-    private static final int[] RES_Y_VALUES = {65, 105, 145, 185};
+    public static final int[] RES_Y_VALUES = {40, 80, 120, 160};
 
     private boolean noCooldown;
     private Long startNS;
     private Planet currentPlanet;
     private Set<Updatable> updateListeners;
+    private Set<Drawable> drawables;
     private Map<Resource, Integer> collected;
-    private Map<Button, Text> btnsToDisplay;
 
     public Game() {
         noCooldown = false;
-        currentPlanet = XEONUS;
+        currentPlanet = Planet.XEONUS;
         collected = new EnumMap<>(Resource.class);
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
         updateListeners = new HashSet<>();
-        addUpdateListener(new FoodEater());
-        btnsToDisplay = new HashMap<>();
-        addButton(Buttons.FOOD_ONE, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
+        drawables = new HashSet<>();
+        FoodEater fe = new FoodEater();
+        addUpdateListener(fe);
+        addDrawListener(fe);
+        addDrawListener(new PlanetText());
+        addButton(Buttons.FOOD_ONE);
     }
 
     public boolean isNoCooldown() {
@@ -67,16 +67,16 @@ public class Game {
             if (nextIndex < Buttons.RESOURCE_BUTTONS.length) {
                 ResourceButton next = Buttons.RESOURCE_BUTTONS[nextIndex];
                 if (next.getPlanet() == currentPlanet) {
-                    addButton(next, new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[next.ordinal() % 4]));
+                    addButton(next);
                 } else {
                     if (next.getPlanet() == Planet.DASKOTH) {
-                        addButton(Buttons.CONFIRM_JUMP_ONE, null);
+                        addButton(Buttons.CONFIRM_JUMP_ONE);
                     } else if (next.getPlanet() == Planet.LEYMIA) {
-                        addButton(Buttons.CONFIRM_JUMP_TWO, null);
-                    } else {
-                        addButton(Buttons.CONFIRM_JUMP_THREE, null);
+                        addButton(Buttons.CONFIRM_JUMP_TWO);
                     }
                 }
+            } else {
+                addButton(Buttons.CONFIRM_JUMP_THREE);
             }
         }
     }
@@ -91,32 +91,32 @@ public class Game {
         for (Resource r : currentPlanet.getResources()) {
             collected.put(r, 0);
         }
-        try { btnsToDisplay.forEach((button, text) -> removeButton(button)); } catch (ConcurrentModificationException cme) {} // Throws CME, but works if suppressed.
-        addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD), new Text(Color.BLACK, 48, 1050, RES_Y_VALUES[0]));
+        try { drawables.stream().filter(d -> d instanceof Button).forEach(d -> removeButton((Button)d)); } catch (ConcurrentModificationException cme) {} // Throws CME, but works if suppressed.
+        addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD));
     }
 
     public int getResource(Resource r) {
         return collected.getOrDefault(r, -1);
     }
 
-    public Map<Button, Text> getButtonsOnDisplay() {
-        return btnsToDisplay;
+    public long getNumOfResourcesOnDisplay() {
+        return drawables.stream().filter(d -> d instanceof Button).count();
     }
 
-    public void addButton(Button b, Text t) {
-        btnsToDisplay.put(b, t);
+    public void addButton(Button b) {
         addUpdateListener(b);
+        addDrawListener(b);
     }
 
     public void removeButton(Button b) {
-        btnsToDisplay.remove(b);
         removeUpdateListener(b);
+        removeDrawListener(b);
     }
 
     public void onClick(MouseEvent e) {
-        for (Button b : btnsToDisplay.keySet()) {
-            if (b.click(e, this)) {
-                break;
+        for (Drawable d : drawables) {
+            if (d instanceof Button && ((Button)d).click(e, this)) {
+                return;
             }
         }
     }
@@ -139,7 +139,7 @@ public class Game {
         return updateListeners.remove(updatable);
     }
 
-    public void update(long ns) {
+    void update(long ns) {
         if (startNS == null) {
             startNS = ns;
         }
@@ -150,9 +150,21 @@ public class Game {
             if (u.canUnlock(this)) {
                 UpgradeButton bt = Buttons.UPGRADE_BUTTONS.get(u);
                 if (!bt.hasBeenPurchased()) {
-                    addButton(bt, null);
+                    addButton(bt);
                 }
             }
         }
+    }
+
+    public boolean addDrawListener(Drawable drawable) {
+        return drawables.add(drawable);
+    }
+
+    public boolean removeDrawListener(Drawable drawable) {
+        return drawables.remove(drawable);
+    }
+
+    void draw(GraphicsContext gc) {
+        drawables.forEach(d -> d.draw(gc, this));
     }
 }

@@ -1,28 +1,31 @@
-package com.github.jmatcj.ld40.gui;
+package com.github.jmatcj.ld40.gui.button;
 
 import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Planet;
 import com.github.jmatcj.ld40.data.Resource;
-import com.github.jmatcj.ld40.util.AssetLoader;
 import com.github.jmatcj.ld40.util.Util;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class ResourceButton extends Button {
     private int ordinal;
     private Resource resource;
     private Planet planet;
     private int resourceAmount;
-    private long cooldownTime;
+    private int cooldownTime; // in seconds
     private long cooldownStart;
+    private long currentNS;
     private boolean inCooldown;
 
-    ResourceButton(int ordinal, Planet p, Resource r, Image i, long cd, int x, int y) {
+    ResourceButton(int ordinal, Planet p, Resource r, Image i, int cooldownInSec, int x, int y) {
         super(i, x, y);
         planet = p;
         resource = r;
         resourceAmount = 1;
-        cooldownTime = cd;
+        cooldownTime = cooldownInSec;
         cooldownStart = -1;
         inCooldown = false;
         this.ordinal = ordinal;
@@ -72,8 +75,9 @@ public class ResourceButton extends Button {
         if (g.isNoCooldown()) {
             inCooldown = false;
         } else if (inCooldown) {
+            currentNS = ns;
             if (cooldownStart != -1) {
-                if (ns >= cooldownStart + cooldownTime) {
+                if (Util.hasTimeElapsed(cooldownStart, ns, cooldownTime)) {
                     inCooldown = false;
                     cooldownStart = -1;
                 }
@@ -81,5 +85,15 @@ public class ResourceButton extends Button {
                 cooldownStart = ns;
             }
         }
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, Game g) {
+        super.draw(gc, g); // Draws the actual button
+        if (inCooldown) {
+            gc.setFill(Color.BLACK);
+            gc.fillRect(buttonX, buttonY, ((currentNS - cooldownStart) / ((double)Util.timeInNS(cooldownTime))) * image.getWidth(), 5); // Cooldown bar
+        }
+        Util.drawText(gc, Color.BLACK, 48, TextAlignment.RIGHT, resource.name() + " " + g.getResource(resource), 1270, Game.RES_Y_VALUES[ordinal % 4]); // Right-sidebar text
     }
 }

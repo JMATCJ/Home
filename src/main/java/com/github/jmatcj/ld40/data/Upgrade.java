@@ -1,7 +1,7 @@
 package com.github.jmatcj.ld40.data;
 
 import com.github.jmatcj.ld40.Game;
-import com.github.jmatcj.ld40.gui.Buttons;
+import com.github.jmatcj.ld40.gui.button.Buttons;
 import com.github.jmatcj.ld40.tick.Updatable;
 import com.github.jmatcj.ld40.util.Util;
 import java.util.EnumMap;

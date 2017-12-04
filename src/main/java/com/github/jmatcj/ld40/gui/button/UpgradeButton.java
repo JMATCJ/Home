@@ -1,4 +1,4 @@
-package com.github.jmatcj.ld40.gui;
+package com.github.jmatcj.ld40.gui.button;
 
 import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Upgrade;
