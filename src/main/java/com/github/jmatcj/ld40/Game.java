@@ -106,8 +106,10 @@ public class Game {
         }
         try { drawables.stream().filter(d -> d instanceof Button).forEach(d -> removeButton((Button)d)); } catch (ConcurrentModificationException cme) {} // Throws CME, but works if suppressed.
         addButton(Buttons.getResourceButton(currentPlanet, Resource.FOOD));
-        player.stop();
-        playTheme();
+        if (!noMedia) {
+            player.stop();
+            playTheme();
+        }
     }
 
     public int getResource(Resource r) {
