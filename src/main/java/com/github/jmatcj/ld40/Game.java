@@ -147,11 +147,13 @@ public class Game {
         updateListeners.forEach(u -> u.update(this, ns));
 
         for (Upgrade u : Upgrade.values()) {
+            UpgradeButton bt = Buttons.UPGRADE_BUTTONS.get(u);
             if (u.canUnlock(this)) {
-                UpgradeButton bt = Buttons.UPGRADE_BUTTONS.get(u);
                 if (!bt.hasBeenPurchased()) {
                     addButton(bt);
                 }
+            } else if (drawables.contains(bt)) { // If we dropped below the threshold
+                removeButton(bt);
             }
         }
     }
