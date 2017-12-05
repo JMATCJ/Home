@@ -19,8 +19,8 @@ public class LDJam40 extends Application {
         // Load resources
         // At this stage, the stage (heh) hasn't been shown yet
         AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
-        game = new Game(getParameters().getRaw().contains("-nomusic"));
         Planet.debug(getParameters().getRaw().contains("-debug"));
+        game = new Game(getParameters().getRaw().contains("-newgame"), getParameters().getRaw().contains("-nomusic"));
         game.setNoCooldown(getParameters().getRaw().contains("-nocooldown"));
     }
 
@@ -52,6 +52,7 @@ public class LDJam40 extends Application {
 
     @Override
     public void stop() throws Exception {
+        game.saveData();
         gameLoop.stop();
     }
 

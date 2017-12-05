@@ -4,11 +4,12 @@ import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Resource;
 import com.github.jmatcj.ld40.gui.Drawable;
 import com.github.jmatcj.ld40.util.Util;
+import java.io.Serializable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-public class FoodEater implements Updatable, Drawable {
+public class FoodEater implements Updatable, Drawable, Serializable {
     private long startNS;
     private long currentNS;
     private boolean drawText;

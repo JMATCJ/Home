@@ -2,10 +2,11 @@ package com.github.jmatcj.ld40.gui.button;
 
 import com.github.jmatcj.ld40.Game;
 import com.github.jmatcj.ld40.data.Upgrade;
+import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
-public class UpgradeButton extends Button {
+public class UpgradeButton extends Button implements Serializable {
     private Upgrade upgrade;
     private boolean purchased;
 
@@ -29,5 +30,9 @@ public class UpgradeButton extends Button {
 
     public boolean hasBeenPurchased() {
         return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
     }
 }

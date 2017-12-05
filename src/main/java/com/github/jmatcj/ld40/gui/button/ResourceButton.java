@@ -43,16 +43,20 @@ public class ResourceButton extends Button {
         return planet;
     }
 
-    public boolean inCooldown() {
+    public long getCooldownStart() {
+        return cooldownStart;
+    }
+
+    public long getCurrentNS() {
+        return currentNS;
+    }
+
+    public boolean isInCooldown() {
         return inCooldown;
     }
 
-    public long getCooldownTime() {
-        return cooldownTime;
-    }
-
-    public long getCooldownStart() {
-        return cooldownStart;
+    public void setCurrentNS(long currentNS) {
+        this.currentNS = currentNS;
     }
 
     public void startCooldown(long startNS) {
@@ -63,8 +67,11 @@ public class ResourceButton extends Button {
     @Override
     public boolean click(MouseEvent e, Game g) {
         if (!inCooldown && inBounds(e.getX(), e.getY())) {
-            g.addResource(resource, resourceAmount);
-            inCooldown = true;
+            if (!g.isNoCooldown()) {
+                inCooldown = true;
+            } else {
+                g.addResource(resource, resourceAmount);
+            }
             return true;
         }
         return false;
@@ -80,6 +87,7 @@ public class ResourceButton extends Button {
                 if (Util.hasTimeElapsed(cooldownStart, ns, cooldownTime)) {
                     inCooldown = false;
                     cooldownStart = -1;
+                    g.addResource(resource, resourceAmount);
                 }
             } else {
                 cooldownStart = ns;
