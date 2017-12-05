@@ -27,7 +27,7 @@ public class LDJam40 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Canvas canvas = new Canvas(1280, 720);
-        Scene scene = new Scene(new Group(canvas));
+        Scene scene = new Scene(new Group(canvas), 1270, 710);
         primaryStage.setScene(scene);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -45,6 +45,7 @@ public class LDJam40 extends Application {
         };
         gameLoop.start();
 
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         game.playTheme();
