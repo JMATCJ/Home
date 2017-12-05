@@ -22,7 +22,7 @@ public final class OS {
         }
     }
 
-    private static final String DATA_DIR_NAME = "JMCJ_LDJam40";
+    private static final String DATA_DIR_NAME = "JMCJ_Home";
     private static final Type TYPE = Type.getType(System.getProperty("os.name").toUpperCase());
 
     public static Path getDataDir() {
