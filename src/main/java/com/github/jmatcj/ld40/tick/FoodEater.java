@@ -39,8 +39,12 @@ public class FoodEater implements Updatable, Drawable, Serializable {
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
-        if (drawText && !Util.hasTimeElapsed(startNS, currentNS, 5)) {
-            Util.drawText(gc, Color.BLACK, 36, TextAlignment.CENTER, "One Food has been consumed", 640, 700);
+        if (drawText) {
+            if (!Util.hasTimeElapsed(startNS, currentNS, 5)) {
+                Util.drawText(gc, g.getCurrentPlanet().getTextColor(), 36, TextAlignment.CENTER, "One Food has been consumed", 640, 700);
+            } else {
+                drawText = false;
+            }
         }
     }
 }

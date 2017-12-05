@@ -10,9 +10,9 @@ import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 
 public enum Planet {
-    XEONUS("Xeonus", AssetLoader.getImage("background_one.png"), AssetLoader.getMusic("planet_one_theme.mp3"), FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
+    XEONUS("Xeonus", Color.BLACK, AssetLoader.getImage("background_one.png"), AssetLoader.getMusic("planet_one_theme.mp3"), FOOD, 20, STONE, 50, IRON, 100, CARBON, 200),
     DASKOTH("Daskoth", Color.WHITE, AssetLoader.getImage("background_two.png"), AssetLoader.getMusic("planet_two_theme.mp3"), FOOD, 10, COPPER, 150, SILICON, 250, TITANIUM, 400),
-    LEYMIA("Leymia", AssetLoader.getImage("background_three.png"), AssetLoader.getMusic("planet_three_theme.mp3"), FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800),
+    LEYMIA("Leymia", Color.WHITE, AssetLoader.getImage("background_three.png"), AssetLoader.getMusic("planet_three_theme.mp3"), FOOD, 10, HEXAPHESTRITE, 350, ISOBELGOL, 550, SELDROLE, 800),
     EARTH(null, AssetLoader.getImage("background_final.png"), AssetLoader.getMusic("finale.mp3"));
 
     private String name;
@@ -26,10 +26,6 @@ public enum Planet {
 
     Planet(String name, Image background, Media theme) {
         this(name, Color.BLACK, background, theme, null, 0, null, 0, null, 0, null, 0);
-    }
-
-    Planet(String name, Image background, Media theme, Resource r1, int moa1, Resource r2, int moa2, Resource r3, int moa3, Resource r4, int moa4) {
-        this(name, Color.BLACK, background, theme, r1, moa1, r2, moa2, r3, moa3, r4, moa4);
     }
 
     // Resource should always be 4, so that's why I'm going array

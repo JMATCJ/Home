@@ -99,9 +99,9 @@ public class ResourceButton extends Button {
     public void draw(GraphicsContext gc, Game g) {
         super.draw(gc, g); // Draws the actual button
         if (inCooldown) {
-            gc.setFill(Color.BLACK);
+            gc.setFill(g.getCurrentPlanet().getTextColor());
             gc.fillRect(buttonX, buttonY, ((currentNS - cooldownStart) / ((double)Util.timeInNS(cooldownTime))) * image.getWidth(), 5); // Cooldown bar
         }
-        Util.drawText(gc, Color.BLACK, 48, TextAlignment.RIGHT, resource.name() + " " + g.getResource(resource), 1270, Game.RES_Y_VALUES[ordinal % 4]); // Right-sidebar text
+        Util.drawText(gc, g.getCurrentPlanet().getTextColor(), 48, TextAlignment.RIGHT, resource.name() + " " + g.getResource(resource), 1270, Game.RES_Y_VALUES[ordinal % 4]); // Right-sidebar text
     }
 }

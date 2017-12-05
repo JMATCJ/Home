@@ -102,13 +102,7 @@ public class Game {
             oos.writeLong(drawables.stream().filter(d -> d instanceof ResourceButton).count());
             for (Drawable d : drawables) {
                 if (d instanceof ResourceButton) {
-                    ResourceButton rb = (ResourceButton)d;
-                    oos.writeInt(rb.ordinal());
-                    oos.writeBoolean(rb.isInCooldown());
-                    if (rb.isInCooldown()) {
-                        oos.writeLong(rb.getCooldownStart());
-                        oos.writeLong(rb.getCurrentNS());
-                    }
+                    oos.writeInt(((ResourceButton)d).ordinal());
                 }
             }
             for (Map.Entry<Upgrade, UpgradeButton> e : Buttons.UPGRADE_BUTTONS.entrySet()) {
@@ -137,19 +131,18 @@ public class Game {
             collected = (Map<Resource, Integer>)ois.readObject();
             long numOfBts = ois.readLong();
             for (int i = 0; i < numOfBts; i++) {
-                ResourceButton rb = Buttons.RESOURCE_BUTTONS[ois.readInt()];
-                if (ois.readBoolean()) { // isInCooldown
-                    rb.startCooldown(ois.readLong());
-                    rb.setCurrentNS(ois.readLong());
-                }
-                addButton(rb);
+                addButton(Buttons.RESOURCE_BUTTONS[ois.readInt()]);
             }
             for (int i = 0; i < Buttons.UPGRADE_BUTTONS.size(); i++) {
                 Buttons.UPGRADE_BUTTONS.get(ois.readObject()).setPurchased(ois.readBoolean());
             }
             long numOfU = ois.readLong();
             for (int i = 0; i < numOfU; i++) {
-                addUpdateListener((Updatable)ois.readObject());
+                Updatable u = (Updatable)ois.readObject();
+                addUpdateListener(u);
+                if (u instanceof Drawable) {
+                    addDrawListener((Drawable)u);
+                }
             }
             if (ois.readBoolean()) { // readyToJump
                 switch (currentPlanet) {

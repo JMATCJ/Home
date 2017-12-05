@@ -78,7 +78,6 @@ public enum Upgrade implements Updatable {
         if (startNS == 0) {
             startNS = ns;
         } else if (Util.hasTimeElapsed(startNS, ns, secBetweenCycles)) {
-            g.addResource(rToAdd, numToAdd);
             Buttons.getResourceButton(g.getCurrentPlanet(), rToAdd).startCooldown(ns);
             startNS = ns;
         }
